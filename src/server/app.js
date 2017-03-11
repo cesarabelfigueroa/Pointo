@@ -27,7 +27,8 @@ var config = {
 };
 
 // Just for test
-var myTable = new Table({
+<<<<<<< HEAD
+var myTable = new table({
 	name: "USERS",
 	fields: {
 		id: {
@@ -66,15 +67,74 @@ var myTable = new Table({
 		}
 	}
 });
+=======
+// var myTable = new Table({
+// 	name: "USERS",
+// 	fields: {
+// 		id: {
+// 			name: "id_user",
+// 	  		type: "number",
+// 	  		dimension: 2,
+// 	  		isAutoIncrement: true
+// 		},
+// 		name: {
+// 			name: "name",
+// 			type: "string",
+// 			dimension: 10,
+// 			hasNull: false
+// 		},
+// 		userName: {
+// 			name: "username",
+// 			type: "string",
+// 			dimension: 10,
+// 			hasNull: false
+// 		},
+// 		password: {
+// 			name: "password",
+// 			type: "string",
+// 			dimension: 10,
+// 			hasNull: false
+// 		},
+// 		email: {
+// 			name: "email",
+// 			type: "string",
+// 			defaultValue: "Tegucigalpa"
+// 		},
+// 		disabled: {
+// 			name: "disabled",
+// 			type: "number",
+// 			defaultValue: 0
+// 		}
+// 	}
+// });
+// var myHobbies = new Table({
+// 	name: "HOBBIES",
+// 	fields: {
+// 		idUser: {
+// 			name: "id_user",
+// 	  		type: "number",
+// 	  		dimension: 2,
+// 	  		isAutoIncrement: true
+// 		},
+// 		hobby: {
+// 			name: "Hobby",
+// 			type: "string",
+// 			dimension: 10
+// 		}
+// 	}
+// });
+
+
+>>>>>>> 7f865a04e4aa5f990b9cc2fb5d9956b24a96cdff
 // myTable.CREATE2({
 // 	name: "Cesar",
 // 	userName: "cesar",
 // 	password: "12345",
 // 	email: "cesads@hola.com"
 // });
-myTable.READ({
-	fields: ["id", "userName"]
-});
+// myTable.READ({
+// 	fields: ["id", "userName"]
+// });
 
 
 // app.sql = sql.connect(config, function(err) {
@@ -110,3 +170,22 @@ app.listen(app.get('port'), function() {
 
 
 module.exports = app;
+
+
+// Create the Service
+
+app.service('nameService', Function()){
+    
+});
+
+ myTable.CREATE([{
+ 	name: "Cesar",
+ 	userName: "cesar",
+ 	password: "12345",
+ 	email: "cesads@hola.com"
+},{
+ 	name: "Cesar",
+ 	userName: "cesar",
+ 	password: "12345",
+ 	email: "cesads@hola.com"
+}]);

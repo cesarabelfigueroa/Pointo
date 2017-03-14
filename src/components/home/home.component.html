@@ -18,8 +18,8 @@
 <div class="ui hidden divider"></div>
 <div class="ui container">
   <div class="ui three stackable cards">
-    <div class="card" *ngFor="let promotion of promotions">
-      <div class="image">
+    <div class="card" *ngFor="let promotion of promotions" on-mouseover="test()">
+       <div class="image">
         <img src="{{promotion.image}}">
       </div>
       <div class="content">
@@ -33,4 +33,6 @@
       </div>
     </div>
   </div>
-</div>
+</div>  
+
+

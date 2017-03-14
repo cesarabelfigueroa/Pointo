@@ -62,6 +62,10 @@ export class HomeComponent  implements OnInit{
 			name: 'Restaurantes'
 		}]
 	}
+    
+    test(){
+        //$('.ui.modal').modal('show');
+    }
 
 	ngOnInit() {
 		this.route.params.subscribe(params => {

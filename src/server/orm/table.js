@@ -27,6 +27,7 @@ var table = function(definition) {
 			if (err) console.log(err);
 			new sql.Request().query(stringStament, function(err, recordset) {
 				if (err) console.log(err);
+				// console.log(recordset);
 				if (response) {
 					response.json(recordset);
 				}
@@ -192,61 +193,6 @@ var table = function(definition) {
 	 *										El valor a insertar deberá coincidir con el tipo del campo.
 	 * 
 	 * @return     {string}	stringStament 	Statement para la insercción
-	 * 
-	 * RESTAURANTES.CREATE2({
-	 * 	nombre: "Matambritas",
-	 * 	$otherTables: [{
-	 * 		table: "Local",
-	 * 		values: [{
-	 * 			idRestaurante: {
-	 * 				from: RESTAURANTES.fields.id
-	 * 			},
-	 *			address: "sdaasd",
-	 * 			phone: "asdad"
-	 * 		}]		
-	 * 	},{
-	 * 		table: "CATEGORIAS",
-	 * 		values: [{
-	 *	 		idCategoria: 1,
-	 * 			idRestaurante: {
-	 * 				from: RESTAURANTES.fields.id
-	 * 			}
-	 * 		}]
-	 * 	}]
-	 * })
-	 * 
-	 * $tblsIntermedias: [{
-	 * 	table: tabla1,
-	 * 	values: [{
-	 * 		field1: value,
-	 * 		field2: {
-	 * 			from: tabla1.field 
-	 * 		}
-	 * 	}]
-	 * }]
-	 */
-	/**  RESTAURANTES.CREATE2({
-	 *  nombre: "Matambritas",
-	 *  $tblsIntermedias: [{
-	 *   table: "CATEGORIAS",
-	 *   values: [{
-	 *    idCategoria: 1,
-	 *    idRestaurante: {
-	 *     from: RESTAURANTES.fields.id
-	 *    }
-	 *   }]
-	 *  }]
-	 * })
-	 * 
-	 * $tblsIntermedias: [{
-	 *  table: tabla1,
-	 *  values: [{
-	 *   field1: value,
-	 *   field2: {
-	 *    from: tabla1.field 
-	 *   }
-	 *  }]
-	 * }]
 	 */
 	this.CREATE = function(object) {
 		var stringStament = "INSERT INTO " + this.name + " (";
@@ -317,61 +263,6 @@ var table = function(definition) {
 		return stringStament;
 	};
 
-	/**
-	 *	myTable.CREATE({
-	 * 	id:2,
-	 *	nombre:"Herbert",
-	 *	apellido:"Paz"
-	 *	})	
-	 *  Este metodo valida tanto el nombre y tipo de cada campo 
-	 */
-	this.CREATE = function(object) {
-		var stringStament = "INSERT INTO ";
-		if (!object) {
-			throw "Invalid Parameters";
-		} else {
-			var counter = 0;
-			stringStament += this.name + " (";
-			for (var tempfields in this.fields) {
-				var checker = 0;
-				for (var fieldName in object) {
-					if (this.fields[tempfields].name == fieldName) {
-						if (counter == Object.keys(object).length - 1) {
-							stringStament += fieldName;
-						} else {
-							stringStament += fieldName + ", ";
-						}
-						counter++;
-						checker = 1;
-					} else {}
-				}
-				if (checker == 0) {
-					throw "Invalid Field";
-				}
-			}
-			stringStament += ") VALUES (";
-			counter = 0;
-			for (var tempfields in this.fields) {
-				var checker = 0;
-				for (var fieldValue in object) {
-					if ((this.fields[tempfields].type) == typeof(object[fieldValue])) {
-						if (counter == Object.keys(object).length - 1) {
-							stringStament += "'" + object[fieldValue] + "'";
-						} else {
-							stringStament += "'" + object[fieldValue] + "', ";
-						}
-						counter++;
-						checker = 1;
-					}
-				}
-				if (checker == 0) {
-					throw "Invalid Type of Value";
-				}
-			}
-			stringStament += ");";
-			console.log(stringStament);
-		}
-	};
 
 
 	/**
@@ -570,60 +461,4 @@ var Field = function(definition, table) {
 	this.hasNull = definition.hasNull === undefined ? true : definition.hasNull;
 };
 
-
 module.exports = table;
-// var myTable = new table({
-// 	name: "USERS",
-// 	fields: {
-// 		id: {
-// 			name: "id_user",
-// 	  		type: "number",
-// 	  		dimension: 2,
-// 	  		isAutoIncrement: true
-// 		},
-// 		name: {
-// 			name: "name",
-// 			type: "string",
-// 			dimension: 10,
-// 			hasNull: false
-// 		},
-// 		userName: {
-// 			name: "username",
-// 			type: "string",
-// 			dimension: 10,
-// 			hasNull: false
-// 		},
-// 		password: {
-// 			name: "password",
-// 			type: "string",
-// 			dimension: 10,
-// 			hasNull: false
-// 		},
-// 		email: {
-// 			name: "email",
-// 			type: "string",
-// 			defaultValue: "Tegucigalpa"
-// 		},
-// 		disabled: {
-// 			name: "disabled",
-// 			type: "number",
-// 			defaultValue: 0
-// 		}
-// 	}
-// });
-// var myHobbies = new table({
-// 	name: "HOBBIES",
-// 	fields: {
-// 		idUser: {
-// 			name: "id_user",
-// 	  		type: "number",
-// 	  		dimension: 2,
-// 	  		isAutoIncrement: true
-// 		},
-// 		hobby: {
-// 			name: "Hobby",
-// 			type: "string",
-// 			dimension: 10
-// 		}
-// 	}
-// });

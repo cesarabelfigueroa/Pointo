@@ -18,11 +18,6 @@ export class SignUpComponent implements OnInit {
 
 
 		
-		this.dataService.getUsers().subscribe(
-			data => this.users = data,
-			error => console.log(error),
-			() => console.log(this.users)
-		);
 	}
 
 	ngOnInit() {

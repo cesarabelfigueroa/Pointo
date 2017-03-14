@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import * as $ from 'jquery';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.controller';
 import { AppComponent } from './components/app/app.controller';

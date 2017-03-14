@@ -24,11 +24,14 @@ export class LoginComponent {
 
 	submitLogin() {
 
-		this.dataService.getUsers(this.user).subscribe(
+		/*this.dataService.getUsers(this.user).subscribe(
 			data => this.data = data,
 			error => console.log(error),
 			() => this.validUser(this.data)
-		);
+		);  */
+
+		console.log($);
+		(<any>$('.ui.basic.modal')).modal('show');
 
 
 
@@ -38,8 +41,6 @@ export class LoginComponent {
 
 
 	validUser(data: any) {
-		if (data && data[0] && data[0].name) {
-			this.router.navigate(['/home/'], JSON.stringify({ data: { entity: 'entity' }}) );
-		}
+		console.log(data);
 	}
 }

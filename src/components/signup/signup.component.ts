@@ -16,9 +16,6 @@ export class SignUpComponent implements OnInit {
 
 	constructor(private dataService: AuthenticateService) {
 
-
-		
-		
 	}
 
 	ngOnInit() {

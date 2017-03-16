@@ -1,36 +1,47 @@
 var Table = require('../orm/table.js');
 
 var user = new Table({
-	name: "USERS",
+	name: "PROMOTION",
 	fields: {
 		id: {
-			name: "id_user",
+			name: "id_promotion",
 			type: "number",
-			dimension: 2,
+			dimension: 18,
 			isAutoIncrement: true
+		},
+        restaurant: {
+			name: "id_restaurant",
+			type: "number",
+			dimension: 18,
+			hasNull: false
 		},
 		name: {
 			name: "name",
 			type: "string",
-			dimension: 10,
-			hasNull: false
+			dimension: 50,
+			hasNull: true
 		},
-		userName: {
-			name: "username",
+		description: {
+			name: "description",
 			type: "string",
-			dimension: 10,
-			hasNull: false
+			dimension: 500,
+			hasNull: true
 		},
-		password: {
-			name: "password",
+		types: {
+			name: "types",
 			type: "string",
-			dimension: 10,
-			hasNull: false
+			dimension: 50,
+			hasNull: true
 		},
-		email: {
-			name: "email",
-			type: "string",
-			defaultValue: "Tegucigalpa"
+		initDate: {
+			name: "initDate",
+			type: "date",
+            hasNull: true
+		},
+        endDate: {
+			name: "endDate",
+			type: "date",
+			hasNull: true
 		},
 		disabled: {
 			name: "disabled",

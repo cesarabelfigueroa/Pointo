@@ -14,6 +14,10 @@ export class AuthenticateService {
 		console.log(user);
 		return this.http.get('/user?email=' + user.email+ '&password=' + user.password).map(res => res.json());
 	}
+    
+    getPromotion(): Observable<any> {
+        return this.http.get('/promotion').map(res => res.json());
+    }
 
 	getTable(): Observable<any> {
 		return this.http.get('/table').map(res => res.json());
@@ -22,3 +26,16 @@ export class AuthenticateService {
 
 
 }
+
+
+
+/* 
+
+<form action="/promotion" method="post">
+<input name="name"/> 
+
+<button type="submit"></button>
+
+</form>
+
+*/

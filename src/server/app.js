@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var sql = require("mssql");
 var fs = require('fs');
 var user = require('./models/user');
+var promotion = require('./models/promotion');
 
 var app = express();
 
@@ -50,6 +51,23 @@ app.get('/user', function(request, response) {
 		}
 	}, response);
 });
+
+app.get('/promotion',function(request,response){
+   promotion.READ({
+       field:[],
+       where: {
+           disabled: 0
+       }
+   },response); 
+});
+
+/*app.post('/promotion', function(request,response){
+    let name:String=request.body.name;
+    
+   promotion.CREATE({
+       
+   }); 
+});*/
 
 
 

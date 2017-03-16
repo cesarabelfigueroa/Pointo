@@ -318,63 +318,6 @@ var table = function(definition) {
 	};
 
 	/**
-	 *	myTable.CREATE({
-	 * 	id:2,
-	 *	nombre:"Herbert",
-	 *	apellido:"Paz"
-	 *	})	
-	 *  Este metodo valida tanto el nombre y tipo de cada campo 
-	 */
-	this.CREATE = function(object) {
-		var stringStament = "INSERT INTO ";
-		if (!object) {
-			throw "Invalid Parameters";
-		} else {
-			var counter = 0;
-			stringStament += this.name + " (";
-			for (var tempfields in this.fields) {
-				var checker = 0;
-				for (var fieldName in object) {
-					if (this.fields[tempfields].name == fieldName) {
-						if (counter == Object.keys(object).length - 1) {
-							stringStament += fieldName;
-						} else {
-							stringStament += fieldName + ", ";
-						}
-						counter++;
-						checker = 1;
-					} else {}
-				}
-				if (checker == 0) {
-					throw "Invalid Field";
-				}
-			}
-			stringStament += ") VALUES (";
-			counter = 0;
-			for (var tempfields in this.fields) {
-				var checker = 0;
-				for (var fieldValue in object) {
-					if ((this.fields[tempfields].type) == typeof(object[fieldValue])) {
-						if (counter == Object.keys(object).length - 1) {
-							stringStament += "'" + object[fieldValue] + "'";
-						} else {
-							stringStament += "'" + object[fieldValue] + "', ";
-						}
-						counter++;
-						checker = 1;
-					}
-				}
-				if (checker == 0) {
-					throw "Invalid Type of Value";
-				}
-			}
-			stringStament += ");";
-			console.log(stringStament);
-		}
-	};
-
-
-	/**
 	 * Ejecutar select
 	 *
 	 * @param      {<JSON>}  object (opcional) 

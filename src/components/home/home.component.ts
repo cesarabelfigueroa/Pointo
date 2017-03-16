@@ -15,7 +15,8 @@ export class HomeComponent  implements OnInit{
 	private router;
 	private route;
 	private type;
-	private promotions;
+    private promotion;
+	private promotions = [];
 	private navbarItems;
 	private user;
 
@@ -29,28 +30,11 @@ export class HomeComponent  implements OnInit{
 		});
 
 		
-
-
-		this.promotions = [{
-			name: 'Food 2*1',
-			image: '/assets/images/app.jpg',
-			description: 'Pay one and have two',
-			initDate: new Date(),
-			endDate: new Date()
-		}, {
-			name: 'Food 2*1',
-			image: '/assets/images/app.jpg',
-			description: 'Pay one and have two',
-			initDate: new Date(),
-			endDate: new Date()
-		}, {
-			name: 'Food 2*1',
-			image: '/assets/images/app.jpg',
-			description: 'Pay one and have two',
-			initDate: new Date(),
-			endDate: new Date()
-		}];
-
+        dataService.getPromotion().subscribe(
+			data => this.promotions = data,
+			error => console.log(error)
+		);
+        
 		this.navbarItems = [{
 			name: 'Principal',
 			isActive: true
@@ -63,8 +47,19 @@ export class HomeComponent  implements OnInit{
 		}]
 	}
     
-    test(){
-        //$('.ui.modal').modal('show');
+    test(promotion : any){
+        this.promotion = promotion;
+        (<any>$('.ui.modal')).modal({
+            allowMultiple: false,
+        });
+        (<any>$('#modal0')).modal('show');
+    }
+    
+    newPromotion(){
+        (<any>$('.ui.modal')).modal({
+            allowMultiple: false,
+        });
+        (<any>$('#modal1')).modal('show');
     }
 
 	ngOnInit() {

@@ -1,6 +1,6 @@
 var Table = require('../orm/table.js');
 
-var user = new Table({
+var promotion = new Table({
 	name: "PROMOTION",
 	fields: {
 		id: {
@@ -51,4 +51,4 @@ var user = new Table({
 	}
 });
 
-module.exports = user;
+module.exports = promotion;

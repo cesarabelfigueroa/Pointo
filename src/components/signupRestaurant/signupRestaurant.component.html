@@ -28,7 +28,7 @@
         <div class = "ui container">
           <div class = "ui three stackables cards">
             <div class="card" *ngFor="let promotion of promotions">
-              <div class="image">
+              <div class="image" (click) = "showModal($event)">
                 <img src="{{promotion.image}}">
               </div>
               <div class="content">
@@ -41,5 +41,26 @@
                 <span class="date">{{promotion.endDate  | date }}</span>
               </div>
             </div>
-        </div>
+          </div>
+</div>
+
+<div class = "ui modal" id = modal1 >
+  <div class = "ui inverted vertical masthead left aligned segment">
+    <font size = "18"> Registro de Locales</font>
+  </div>
+  <div class = "ui horizontal divider"></div>
+  <div class = "container">
+    <div class = "ui segment ui form">
+      
+      <label>Nombre: </label>
+      <input type = "text" name= "name" placeholder = "Nombre">
+      <label>Direccion: </label>
+      <input type = "text" name= "adress" placeholder = "Direccion">
+      <label>Gerente: </label>
+      <input type = "text" name= "manager" placeholder = "Gerente">
+      <label>Telefono: </label>
+      <input type = "text" name= "phone" placeholder = "Telefono">
+      <div class = "ui button">Registrar Local</div>
+    </div>
+  </div>
 </div>

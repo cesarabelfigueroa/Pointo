@@ -13,7 +13,6 @@ export class signupRestaurantComponent {
 	private router;
 	private type;
 	private promotions;
-	private menubar;
 
 	constructor(dataService: AuthenticateService, router: Router) {
 		this.router = router;
@@ -24,29 +23,11 @@ export class signupRestaurantComponent {
 			description: 'Pay one and have two',
 			initDate: new Date(),
 			endDate: new Date()
-		}, {
-			name: 'Food 2*1',
-			image: '/assets/images/app.jpg',
-			description: 'Pay one and have two',
-			initDate: new Date(),
-			endDate: new Date()
-		}, {
-			name: 'Food 2*1',
-			image: '/assets/images/app.jpg',
-			description: 'Pay one and have two',
-			initDate: new Date(),
-			endDate: new Date()
 		}];
 
-		this.menubar = [{
-			name: 'Principal',
-			isActive: true
-		}, {
-			name: 'Restaurantes'
-		}, {
-			name: 'Contact'
-		}, {
-			name: 'Restarantes'
-		}]
+	}
+	showModal(element){	
+		(<any>$('.ui.modal')).modal({allowMultiple: false,});
+		(<any>$('#modal1')).modal('show');
 	}
 }

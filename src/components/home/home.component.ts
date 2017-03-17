@@ -49,6 +49,7 @@ export class HomeComponent  implements OnInit{
     
     test(promotion : any){
         this.promotion = promotion;
+        console.log(promotion);
         (<any>$('.ui.modal')).modal({
             allowMultiple: false,
         });

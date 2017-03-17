@@ -60,6 +60,26 @@ app.get('/promotion',function(request,response){
        }
    },response); 
 });
+app.post('/savePromotion', function(request, response) {
+	console.log("@savePromotion", request.body);
+
+	if (request.body.id_promotion || request.body.id) {
+		request.body.id = request.body.id_promotion || request.body.id;
+		promotion.UPDATE({
+			fields: request.body
+		}, response);
+	} else {
+		promotion.CREATE(request.body, response);
+	}
+	// promotion.CREATE({
+	// 	restaurant: request.body.restaurant,
+	// 	name: request.body.name,
+	// 	description: request.body.description,
+	// 	types: request.body.types,
+	// 	initDate: request.body.initDate,
+	// 	endDate: request.body.endDate
+	// }, response);
+});
 
 /*app.post('/promotion', function(request,response){
     let name:String=request.body.name;

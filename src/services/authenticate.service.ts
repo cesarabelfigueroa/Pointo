@@ -23,6 +23,10 @@ export class AuthenticateService {
 		return this.http.get('/table').map(res => res.json());
 	}
 
+	savePromotion(promotion : any) {
+		console.log(promotion);
+		return this.http.post("/savePromotion", promotion, {headers: this.headers}).map(res => res.json());
+	}
 
 
 }

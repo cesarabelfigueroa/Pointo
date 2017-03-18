@@ -36,8 +36,8 @@ var table = function(definition) {
 	// 			}
 	// 			var _leftTable = join[ON].leftTable.name || "";
 	// 			var _rightTable = join[ON].rightTable.name;
-				
-				
+
+
 	// 		}
 	// 	}
 	// };
@@ -138,7 +138,7 @@ var table = function(definition) {
 							if (oper === "on") {
 								_value = rightTable.fields[_condition[oper]].name;
 							} else {
-								_operator = operators[oper];
+								_operator = operators.hasOwnProperty(oper) ? operators[oper] : oper;
 								_value = _condition[oper];
 							}
 						} else {
@@ -168,7 +168,7 @@ var table = function(definition) {
 							_value = "'" + _value + "'";
 						}
 
-						_stringWhere += _field.name + _operator + _value;
+						_stringWhere += _field.name + " " + _operator + " " + _value;
 
 					} else {
 						throw "The table doesn't have the field: " + CONDITION;

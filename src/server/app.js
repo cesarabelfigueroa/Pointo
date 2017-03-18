@@ -92,6 +92,13 @@ app.post('/savePromotion', function(request, response) {
 
 app.get("/restaurant", function(request, response) {
 	console.log("@restaurant", request.query);
+	var object = {};
+	try {
+		object = JSON.parse(request.query.object);
+	} catch (e) {
+		console.error(e)
+
+	}
 	var _optionsQuery = {
 		fields: ["id", "name", "userName", "email"],
 		join: [{
@@ -117,8 +124,13 @@ app.get("/restaurant", function(request, response) {
 		}
 	};
 	
-	if (request.query.id) {
-		_optionsQuery.where.id = request.query.id;
+	if (object.name) {
+		_optionsQuery.where.name = {
+			LIKE: "%" + object.name + "%"
+		};
+	}
+	if (object.id) {
+		_optionsQuery.where.id = object.id;
 	}
 	user.READ(_optionsQuery, response);
 });

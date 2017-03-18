@@ -32,6 +32,10 @@ export class AuthenticateService {
 		console.log(test);
 		return this.http.get("/testJoin").map(res => res.json());
 	}
+	getRestaurants(test : any) {
+		console.log(test);
+		return this.http.get("/restaurant?object=" + JSON.stringify(test)).map(res => res.json());
+	}
 
 
 }

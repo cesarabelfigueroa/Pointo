@@ -6,6 +6,7 @@ var sql = require("mssql");
 var fs = require('fs');
 var user = require('./models/user');
 var promotion = require('./models/promotion');
+var restaurant = require('./models/restaurant');
 
 var app = express();
 
@@ -89,7 +90,23 @@ app.post('/savePromotion', function(request, response) {
    }); 
 });*/
 
-
+app.get("/testJoin", function(request, response) {
+	console.log("@testJoin", request.query);
+	restaurant.READ({
+		join: [{
+			table: promotion,
+			on: {
+				id: {
+					on: "restaurant"
+				}
+			}
+		}],
+		where: {
+			id:  request.query.id
+		}
+	}, response);
+	// response.json({});
+});
 
 app.listen(app.get('port'), function() {
 	console.log('Angular 2 Full Stack listening on port ' + app.get('port'));

@@ -34,7 +34,7 @@ var table = function(definition) {
 			// var createRequest = function(_object) {
 			// 	console.log("@_object", _object.query);
 				var request = new sql.Request(connection);
-				
+
 				request.query(object.query, function(err, recordset) {
 					// if (_object.callback) {
 					// 	console.log("@callback", _object.callback);
@@ -118,7 +118,7 @@ var table = function(definition) {
 						if (typeof(_condition) === "object" && !Array.isArray(_condition)) {
 							var oper = Object.keys(_condition)[0];
 							if (oper === "on") {
-								_value = rightTable.name + '.' + rightTable.fields[_condition[oper]].name;
+								_value = rightTable.fields[_condition[oper]].name;
 							} else {
 								_operator = operators[oper];
 								_value = _condition[oper];
@@ -335,7 +335,7 @@ var table = function(definition) {
 		
 	this.READ = function(object, response) {
 		callDB({
-			query: this.getSelectStatement(), 
+			query: this.getSelectStatement(object), 
 			response: response
 		});
 	};
@@ -366,7 +366,7 @@ var table = function(definition) {
 						_outer = _join.outer;
 					}
 
-					stringJoin += _outer + " JOIN " + _join.table.name;
+					stringJoin += _outer + " JOIN " + _join.table.nameInDB;
 					stringJoin += " ON " + _parseCondition(_join.on, _join.table);
 				}
 			}
@@ -385,7 +385,7 @@ var table = function(definition) {
 			}
 
 		}
-		// console.log(stringStament);
+		console.log(stringStament);
 		return stringStament;
 	};
 

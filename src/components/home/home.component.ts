@@ -43,7 +43,7 @@ export class HomeComponent  implements OnInit{
 		// 	//No Descomentar este reglon, sigo trabajando en ello lo de arriba si funciona
 		// 	//this.newPromotion = params['data'];
 		// });
-
+		console.log(dataService)
 		
 		dataService.getPromotion().subscribe(
 			data => this.promotions = data,

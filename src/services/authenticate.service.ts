@@ -28,6 +28,11 @@ export class AuthenticateService {
 		return this.http.post("/savePromotion", promotion, {headers: this.headers}).map(res => res.json());
 	}
 
+	testJoin(test : any) {
+		console.log(test);
+		return this.http.get("/testJoin").map(res => res.json());
+	}
+
 
 }
 

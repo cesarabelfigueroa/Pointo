@@ -96,13 +96,64 @@ app.post('/saveLocal', function(request, response){
 	}else{
 		local.CREATE(request.body,response);
 	}
+
+app.get("/restaurant", function(request, response) {
+	console.log("@restaurant", request.query);
+	var object = {};
+	try {
+		object = JSON.parse(request.query.object);
+	} catch (e) {
+		console.error(e)
+
+	}
+	var _optionsQuery = {
+		fields: ["id", "name", "userName", "email"],
+		join: [{
+			table: restaurant,
+			fields: ["id", "idUser", "represent", "rtn"],
+			on: {
+				id: {
+					on: "idUser"
+				}
+			}
+		},{
+			leftTable: restaurant,
+			table: promotion,
+			fields: ["id", "restaurant", "name", "description"],
+			on: {
+				id: {
+					on: "restaurant"
+				}
+			}
+		}],
+		where: {
+			disabled: 0
+		}
+	};
+	
+	if (object.name) {
+		_optionsQuery.where.name = {
+			LIKE: "%" + object.name + "%"
+		};
+	}
+	if (object.id) {
+		_optionsQuery.where.id = object.id;
+	}
+	user.READ(_optionsQuery, response);
 });
 
 app.get("/testJoin", function(request, response) {
-	console.log("@testJoin", request.query);
-	restaurant.READ({
+	user.READ({
 		join: [{
+			table: restaurant,
+			on: {
+				id: {
+					on: "idUser"
+				}
+			}
+		},{
 			table: promotion,
+			leftTable: promotion,
 			on: {
 				id: {
 					on: "restaurant"

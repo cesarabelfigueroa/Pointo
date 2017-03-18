@@ -5,7 +5,7 @@
     <form class = "ui segment ui form">
         <div class = "ui field">
             <label>Nombre</label>
-            <input type = "text" name = "name" placeholder = "Nombre de Restaurante">
+            <input type = "text" name = "name" placeholder = "Nombre de Restaurante" >
         </div>
         <div class = "field">
             <label>Username</label>
@@ -29,7 +29,7 @@
           <div class = "ui three stackables cards">
             <div class="card" *ngFor="let promotion of promotions">
               <div class="image" (click) = "showModal($event)">
-                <img src="{{promotion.image}}">
+                <img src="/assets/images/agregar.png">
               </div>
               <div class="content">
                 <a class="header">{{promotion.name}}</a>
@@ -41,6 +41,7 @@
                 <span class="date">{{promotion.endDate  | date }}</span>
               </div>
             </div>
+            <div class></div>
           </div>
 </div>
 
@@ -51,36 +52,36 @@
             <img src = "/assets/images/app.jpg">
         </div>
         <div class = "description">
-          <form class = "ui form">
+          <form class = "ui form" >
             <div class = "ui header">
                 Registro de Locales
             </div>
             <div class = "one field">
               <div class = "field">
                 <label>Direccion</label>
-                <input type = "text" name = "adress" placeholder = "Direccion">
+                <input type = "text" name = "adress" placeholder = "Direccion" [(ngModel)] = "local.adress">
               </div>
               <div class = "field">
                 <label>Telefono</label>
-                <input type = "tel" name = "phone" placeholder = "Telefono">
+                <input type = "tel" name = "phone" placeholder = "Telefono" [(ngModel)] = "local.phone">
                 </div>
               <div class = "field">
                 <label>Gerente</label>
-                <input type = "text" name = "gerent" placeholder = "Gerente">      
+                <input type = "text" name = "gerent" placeholder = "Gerente" [(ngModel)] = "local.gerent">      
               </div>
               <div class = "field">
                 <label>Hora de Inicio</label>
-                <input type = "time" name = "initAt" >
+                <input type = "time" name = "initAt"  [(ngModel)] = "local.initAt">
               </div>
               <div class = "field">
                 <label>Hora de Salida</label>
-                <input type = "time" name = "endAt" >
+                <input type = "time" name = "endAt" [(ngModel)] = "local.endAt">
               </div>
             </div>
              <div class="actions">
-                <div class="ui positive right labeled icon button">
+                <button class="ui positive right labeled icon button"  (click) = "saveLocal()">
                   <i class="checkmark icon"></i>
-                </div>
+                </button>
               </div>
         </form>          
         </div>

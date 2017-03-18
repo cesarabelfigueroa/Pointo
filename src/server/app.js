@@ -7,6 +7,7 @@ var fs = require('fs');
 var user = require('./models/user');
 var promotion = require('./models/promotion');
 var local = require('./models/local');
+var restaurant = require('./models/restaurant');
 var app = express();
 
 app.set('port', (process.env.PORT || 3000));
@@ -51,6 +52,27 @@ app.get('/promotion',function(request,response){
    },response); 
 });
 
+app.post('/savePromotion', function(request, response) {
+	console.log("@savePromotion", request.body);
+
+	if (request.body.id_promotion || request.body.id) {
+		request.body.id = request.body.id_promotion || request.body.id;
+		promotion.UPDATE({
+			fields: request.body
+		}, response);
+	} else {
+		promotion.CREATE(request.body, response);
+	}
+	// promotion.CREATE({
+	// 	restaurant: request.body.restaurant,
+	// 	name: request.body.name,
+	// 	description: request.body.description,
+	// 	types: request.body.types,
+	// 	initDate: request.body.initDate,
+	// 	endDate: request.body.endDate
+	// }, response);
+});
+
 /*app.post('/promotion', function(request,response){
     let name:String=request.body.name;
     
@@ -58,6 +80,42 @@ app.get('/promotion',function(request,response){
        
    }); 
 });*/
+
+
+app.get('/local', function(request,response){
+	local.READ(field: [], response);
+});
+
+app.post('/saveLocal', function(request, response){
+	console.log("Save Local",request.body);
+	if(request.body.id_local || request.body.id){
+		request.body.id = request.body.id_local || request.body.id;
+		local.UPDATE({
+			fields: request.body
+		}, response);
+	}else{
+		local.CREATE(request.body,response);
+	}
+});
+
+app.get("/testJoin", function(request, response) {
+	console.log("@testJoin", request.query);
+	restaurant.READ({
+		join: [{
+			table: promotion,
+			on: {
+				id: {
+					on: "restaurant"
+				}
+			}
+		}],
+		where: {
+			id:  request.query.id
+		}
+	}, response);
+	// response.json({});
+});
+
 
 
 app.listen(app.get('port'), function() {

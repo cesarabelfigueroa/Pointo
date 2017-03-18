@@ -1,7 +1,7 @@
 var Table = require('../orm/table.js');
 
 var local = new Table({
-	name: "Local",
+	name: "LOCAL",
 	fields: {
 		id: {
 			name: "id_local",

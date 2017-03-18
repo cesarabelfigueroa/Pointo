@@ -17,22 +17,40 @@ var table = function(definition) {
 		user: 'sa',
 		password: '',
 		server: 'localhost',
-		database: 'Pointo'
+		database: 'Pointo',
+    	options: {
+	      encrypt: true
+	    }
 	};
-	// console.log(config)
+	// console.log(sql)
+	// var response = function(response) {
 
-	var callDB = function(stringStament, response) {
-		console.log(stringStament)
-		sql.connect(config, function(err) {
-			if (err) console.log(err);
-			new sql.Request().query(stringStament, function(err, recordset) {
-				if (err) console.log(err);
-				// console.log(recordset);
-				if (response) {
-					response.json(recordset);
-				}
-				sql.close();
-			});
+	// };
+	var callDB = function(object) {
+		console.log("@query", object.query);
+
+		var connection = sql.connect(config, function(err) {
+			if (err) console.error("@Error Conect DB",err);
+			// var createRequest = function(_object) {
+			// 	console.log("@_object", _object.query);
+				var request = new sql.Request(connection);
+
+				request.query(object.query, function(err, recordset) {
+					// if (_object.callback) {
+					// 	console.log("@callback", _object.callback);
+					// 	createRequest(_object.callback);
+					// } else if (object.response) {
+					if (err){
+						console.error(err)	
+					}
+					if (object.response) {
+						object.response.json(recordset || {});
+					}
+						// sql.close();
+					// }
+				});
+			// };
+			// createRequest(object);
 		});
 	};
 	if (typeof(definition.name) !== "string") {
@@ -100,7 +118,7 @@ var table = function(definition) {
 						if (typeof(_condition) === "object" && !Array.isArray(_condition)) {
 							var oper = Object.keys(_condition)[0];
 							if (oper === "on") {
-								_value = rightTable.name + '.' + rightTable.fields[_condition[oper]].name;
+								_value = rightTable.fields[_condition[oper]].name;
 							} else {
 								_operator = operators[oper];
 								_value = _condition[oper];
@@ -160,6 +178,7 @@ var table = function(definition) {
 	 * 													Ejemplo: "[FIELD NAME], [FIELD NAME2]"
 	 */
 	var getStringFields = function(fields, isOrderBy) {
+		console.log("@fields", fields)
 		var stringFields = "";
 		if (!Array.isArray(fields)) {
 			fields = Object.keys(fields);
@@ -175,7 +194,12 @@ var table = function(definition) {
 					console.log("@fields[i]", fields[i])
 				}
 			}
-			if (_self.fields.hasOwnProperty(fields[i])) {
+			if (typeof(fields[i]) === "object") {
+				var _fieldName = Object.keys(fields[i])[0];
+				if (fields[i][_fieldName].hasOwnProperty("fn") && _self.fields.hasOwnProperty(_fieldName)) {
+					stringFields += fields[i][_fieldName].fn + "(" + _self.fields[_fieldName].name + ") AS '" + fields[i][_fieldName].fn + "'";
+				}
+			} else if (_self.fields.hasOwnProperty(fields[i])) {
 				stringFields += _self.fields[fields[i]].name + (isOrderBy ? (" " + _orderBy) : "") + ",";
 			}
 		}
@@ -194,8 +218,19 @@ var table = function(definition) {
 	 * 
 	 * @return     {string}	stringStament 	Statement para la insercción
 	 */
-	this.CREATE = function(object) {
-		var stringStament = "INSERT INTO " + this.name + " (";
+	this.CREATE = function(object, response) {
+		callDB({
+			query: this.getInsertStatement(object),
+			callback: {
+				query: _self.getSelectStatement({
+					fields: [{id: {fn: "MAX"}}]
+				}),
+				response: response
+			}
+		});
+	};
+	this.getInsertStatement = function(object) {
+		var stringStament = "INSERT INTO " + this.nameInDB + " (";
 		var stringValues = ") VALUES ";
 		if (!Array.isArray(object)) {
 			object = [object];
@@ -259,7 +294,7 @@ var table = function(definition) {
 
 		stringStament += stringValues;
 		// console.log("@INSERT_STATEMENT = ", stringStament);
-		callDB(stringStament);
+		
 		return stringStament;
 	};
 
@@ -297,11 +332,18 @@ var table = function(definition) {
 	 *				groupBY(optional): [field_name, field_name2]
 	 *			}
 	 */
+		
 	this.READ = function(object, response) {
+		callDB({
+			query: this.getSelectStatement(object), 
+			response: response
+		});
+	};
+	this.getSelectStatement = function(object) {
 		object = object || {};
 		var stringStament = "SELECT " + (Boolean(object.distinct) ? "DISTINCT " : "");
 		if (!object) {
-			stringStament += "* FROM " + this.name;
+			stringStament += "* FROM " + this.nameInDB;
 		} else {
 			if (!object.fields) {
 				stringStament += "*";
@@ -312,7 +354,7 @@ var table = function(definition) {
 					stringStament += "*"
 				}
 			}
-			stringStament += " FROM " + this.name;
+			stringStament += " FROM " + this.nameInDB;
 
 			var stringJoin = "";
 			if (object.join) {
@@ -324,7 +366,7 @@ var table = function(definition) {
 						_outer = _join.outer;
 					}
 
-					stringJoin += _outer + " JOIN " + _join.table.name;
+					stringJoin += _outer + " JOIN " + _join.table.nameInDB;
 					stringJoin += " ON " + _parseCondition(_join.on, _join.table);
 				}
 			}
@@ -343,8 +385,7 @@ var table = function(definition) {
 			}
 
 		}
-		// console.log(stringStament);
-		callDB(stringStament, response);
+		console.log(stringStament);
 		return stringStament;
 	};
 
@@ -359,23 +400,29 @@ var table = function(definition) {
 	 * 
 	 * @return     {string}	stringStament 	Statement para la insercción
 	 */
-	this.UPDATE = function(object) {
+	this.UPDATE = function(object, response) {
+		callDB({
+			query: this.getUpdateStatement(object),
+			response: response
+		});
+	};
+	this.getUpdateStatement = function(object) {
 		if (!object) {
 			throw "Invalid  Parameters";
 		} else {
-			var stringStament = "UPDATE " + this.name + " SET ";
+			var stringStament = "UPDATE " + this.nameInDB + " SET ";
 			var counter = 0;
-			for (var temp in object) {
-				if (object.hasOwnProperty(temp) && temp !== "id") {
+			for (var temp in object.fields) {
+				if (object.fields.hasOwnProperty(temp) && temp !== "id") {
 					if (this.fields.hasOwnProperty(temp)) {
 						var field = this.fields[temp];
 						if (!field.isAutoIncrement) {
 							stringStament += field.name + "=";
 							if (field.type !== "number") {
-								stringStament += "'" + object[temp] + "',";
+								stringStament += "'" + object.fields[temp] + "',";
 							} else {
-								if (!Number.isNaN(object[temp])) {
-									stringStament += object[temp] + ",";
+								if (!Number.isNaN(object.fields[temp])) {
+									stringStament += object.fields[temp] + ",";
 								} else {
 									throw "UPDATE -> Cannot update " + object[temp] + " in " + temp;
 								}
@@ -392,10 +439,9 @@ var table = function(definition) {
 			if (object.where && Object.keys(object.where).length > 0) {
 				stringStament += _parseWhere(object.where);
 			} else if (object.fields.hasOwnProperty("id")) {
-				stringStament += " WHERE ID = " + this.fields.id.name;
+				stringStament += " WHERE " + this.fields.id.name +  " = " + object.fields.id;
 			}
 			// console.log("@UPDATE_STATEMENT = ", stringStament);
-			callDB(stringStament);
 			return stringStament;
 		}
 	};
@@ -405,12 +451,18 @@ var table = function(definition) {
 	 *
 	 * @param      {JSON}	object  El objeto puedo contener la propiedad o where o simplemente el id
 	 */
-	this.DELETE = function(object) {
+	this.DELETE = function(object, response) {
+		callDB({
+			query: this.getDeleteStatement(object),
+			response: response
+		});
+	};
+	this.getDeleteStatement = function(object) {
 		var stringStament = "";
 		if (!object) {
-			stringStament = "DELETE * FROM " + this.name + ";";
+			stringStament = "DELETE * FROM " + this.nameInDB + ";";
 		} else {
-			stringStament += "DELETE FROM " + this.name;
+			stringStament += "DELETE FROM " + this.nameInDB;
 			if (object.where && Object.keys(object.where).length > 0) {
 				stringStament += _parseWhere(object.where);
 			} else if (object.hasOwnProperty("id")) {
@@ -420,7 +472,6 @@ var table = function(definition) {
 			}
 		}
 		// console.log("@DELETE_STATEMENT = ", stringStament);
-		callDB(stringStament);
 		return stringStament;
 	}
 
@@ -431,6 +482,9 @@ var table = function(definition) {
 
 
 	this.name = definition.name;
+	this.database = "[" + config.database + "]";
+	this.schema = definition.schema || "[dbo]";
+	this.nameInDB = this.database + "." + this.schema + ".[" + this.name + "]";
 	this.fields = {};
 	var DBNames = [];
 	for (var KEY in definition.fields) {
@@ -445,10 +499,10 @@ var table = function(definition) {
 	}
 };
 var Field = function(definition, table) {
-	this.name = table.name + "." + definition.name;
-	if (this.name.indexOf(" ") !== -1) {
-		this.name = "[" + this.name + "]";
-	}
+	this.name = table.nameInDB + ".[" + definition.name + "]";
+	// if (this.name.indexOf(" ") !== -1) {
+	// 	this.name = "[" + this.name + "]";
+	// }
 	this.type = definition.type;
 	this.dimension = definition.dimension;
 	this.defaultValue = definition.defaultValue;

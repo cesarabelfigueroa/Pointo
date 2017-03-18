@@ -23,7 +23,24 @@ export class AuthenticateService {
 		return this.http.get('/table').map(res => res.json());
 	}
 
+	getLocal(): Observable<any> {
+		return this.http.get('/local').map(res => res.json());
+	}
 
+	savePromotion(promotion : any) {
+		console.log(promotion);
+		return this.http.post("/savePromotion", promotion, {headers: this.headers}).map(res => res.json());
+	}
+
+	testJoin(test : any) {
+		console.log(test);
+		return this.http.get("/testJoin").map(res => res.json());
+	}
+
+	saveLocal(local : any) {
+		console.log(local, "En el service");
+		return this.http.post("/saveLocal", local,{headers: this.headers}).map(res => res.json());
+	}
 
 }
 

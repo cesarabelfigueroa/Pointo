@@ -13,8 +13,9 @@ export class signupRestaurantComponent {
 	private router;
 	private type;
 	private promotions;
+	private local = {};
 
-	constructor(dataService: AuthenticateService, router: Router) {
+	constructor(private dataService: AuthenticateService, router: Router) {
 		this.router = router;
 
 		this.promotions = [{
@@ -26,8 +27,13 @@ export class signupRestaurantComponent {
 		}];
 
 	}
+
 	showModal(element){	
 		(<any>$('.ui.modal')).modal({allowMultiple: false,});
 		(<any>$('#modal1')).modal('show');
+	}
+
+	saveLocal(){
+		this.dataService.saveLocal(this.local).subscribe(params =>  {});
 	}
 }

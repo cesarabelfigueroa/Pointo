@@ -10,7 +10,7 @@ const routes: Routes = [
 	{path: 'signupRestaurant', component: signupRestaurantComponent, pathMatch: 'prefix'},
 	{ path: 'login', component: LoginComponent, pathMatch: 'prefix' },
 	{ path: 'signup', component: SignUpComponent, pathMatch: 'prefix' },
-	{ path: 'home', component: HomeComponent, pathMatch: 'prefix' },
+	{ path: 'home', component: HomeComponent,pathMatch: 'prefix' },
 	{ path: '', redirectTo: 'login',  pathMatch: 'full'}
 
 ];

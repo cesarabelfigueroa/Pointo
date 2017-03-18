@@ -44,23 +44,46 @@
           </div>
 </div>
 
-<div class = "ui modal" id = modal1 >
-  <div class = "ui inverted vertical masthead left aligned segment">
-    <font size = "18"> Registro de Locales</font>
-  </div>
-  <div class = "ui horizontal divider"></div>
-  <div class = "container">
-    <div class = "ui segment ui form">
-      
-      <label>Nombre: </label>
-      <input type = "text" name= "name" placeholder = "Nombre">
-      <label>Direccion: </label>
-      <input type = "text" name= "adress" placeholder = "Direccion">
-      <label>Gerente: </label>
-      <input type = "text" name= "manager" placeholder = "Gerente">
-      <label>Telefono: </label>
-      <input type = "text" name= "phone" placeholder = "Telefono">
-      <div class = "ui button">Registrar Local</div>
+<div class = "ui createUpdate modal" name = "createLocal" id = modal1 >
+    <i class = "close icon"></i>
+    <div class = "image content">
+        <div class = "ui large image">
+            <img src = "/assets/images/app.jpg">
+        </div>
+        <div class = "description">
+          <form class = "ui form">
+            <div class = "ui header">
+                Registro de Locales
+            </div>
+            <div class = "one field">
+              <div class = "field">
+                <label>Direccion</label>
+                <input type = "text" name = "adress" placeholder = "Direccion">
+              </div>
+              <div class = "field">
+                <label>Telefono</label>
+                <input type = "tel" name = "phone" placeholder = "Telefono">
+                </div>
+              <div class = "field">
+                <label>Gerente</label>
+                <input type = "text" name = "gerent" placeholder = "Gerente">      
+              </div>
+              <div class = "field">
+                <label>Hora de Inicio</label>
+                <input type = "time" name = "initAt" >
+              </div>
+              <div class = "field">
+                <label>Hora de Salida</label>
+                <input type = "time" name = "endAt" >
+              </div>
+            </div>
+             <div class="actions">
+                <div class="ui positive right labeled icon button">
+                  <i class="checkmark icon"></i>
+                </div>
+              </div>
+        </form>          
+        </div>
     </div>
-  </div>
+   
 </div>

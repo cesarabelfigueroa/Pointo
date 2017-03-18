@@ -10,11 +10,32 @@ export class AuthenticateService {
 
 	constructor(private http: Http) { }
 
-	getUsers(): Observable<any> {
-		return this.http.get('/users').map(res => res.json());
+	getUsers(user : any): Observable<any> {
+		console.log(user);
+		return this.http.get('/user?email=' + user.email+ '&password=' + user.password).map(res => res.json());
 	}
+    
+    getPromotion(): Observable<any> {
+        return this.http.get('/promotion').map(res => res.json());
+    }
 
 	getTable(): Observable<any> {
 		return this.http.get('/table').map(res => res.json());
 	}
+
+
+
 }
+
+
+
+/* 
+
+<form action="/promotion" method="post">
+<input name="name"/> 
+
+<button type="submit"></button>
+
+</form>
+
+*/

@@ -18,9 +18,9 @@ export class signupRestaurantComponent {
 		this.router = router;
 
 		this.promotions = [{
-			name: 'Food 2*1',
+			name: 'Agregar Local',
 			image: '/assets/images/app.jpg',
-			description: 'Pay one and have two',
+			description: 'Click aqui para registrar un nuevo local',
 			initDate: new Date(),
 			endDate: new Date()
 		}];

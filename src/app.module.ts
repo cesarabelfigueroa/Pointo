@@ -2,14 +2,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+//import * as $ from 'jquery';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.controller';
 import { AppComponent } from './components/app/app.controller';
 import { AuthenticateService } from './services/authenticate.service';
 import { SignUpComponent } from './components/signup/signup.component';
 import { signupRestaurantComponent } from './components/signupRestaurant/signupRestaurant.component';
-import { routing } from './routes'
-import {HashLocationStrategy, LocationStrategy, Location} from '@angular/common';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { routing } from './routes';
+import { HashLocationStrategy, LocationStrategy, Location } from '@angular/common';
 
 
 @NgModule({
@@ -18,7 +20,8 @@ import {HashLocationStrategy, LocationStrategy, Location} from '@angular/common'
     HomeComponent,
     LoginComponent,
     SignUpComponent,
-    signupRestaurantComponent
+    signupRestaurantComponent,
+    NavbarComponent
   ],
   imports: [
     routing,
@@ -26,9 +29,11 @@ import {HashLocationStrategy, LocationStrategy, Location} from '@angular/common'
     FormsModule,
     HttpModule
   ],
-  exports: [],
+  exports: [
+    NavbarComponent
+  ],
   providers: [AuthenticateService,
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

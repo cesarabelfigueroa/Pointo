@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticateService } from '../../services/authenticate.service';
-import { Router } from '@angular/router';
+import { Router, Route } from '@angular/router';
 
 
 @Component({
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
 	private user;
+	private data = {};
 	private router;
 
 
@@ -22,6 +23,24 @@ export class LoginComponent {
 	}
 
 	submitLogin() {
-		this.router.navigate(['/home/'])
+
+		/*this.dataService.getUsers(this.user).subscribe(
+			data => this.data = data,
+			error => console.log(error),
+			() => this.validUser(this.data)
+		);  */
+
+		console.log($);
+		(<any>$('.ui.basic.modal')).modal('show');
+
+
+
+
+		// console.log(AuthenticateService);
+	}
+
+
+	validUser(data: any) {
+		console.log(data);
 	}
 }

@@ -196,14 +196,14 @@ var table = function(definition) {
 				}
 			}
 			if (typeof(fields[i]) === "object") {
-				var _fieldName = Object.keys(fields[i])[0];
-				if (fields[i][_fieldName].hasOwnProperty("fn") && _self.fields.hasOwnProperty(_fieldName)) {
-					stringFields += fields[i][_fieldName].fn + "(" + _self.fields[_fieldName].name + ") AS '";
+				var _fieldName = fields[i].field;
+				if (fields[i].hasOwnProperty("fn") && _self.fields.hasOwnProperty(_fieldName)) {
+					stringFields += fields[i].fn + "(" + _self.fields[_fieldName].name + ") AS '";
 
-					if (fields[i][_fieldName].hasOwnProperty("as")) {
-						stringFields += fields[i][_fieldName].as + "'";
+					if (fields[i].hasOwnProperty("as")) {
+						stringFields += fields[i].as + "'";
 					} else {
-						stringFields += fields[i][_fieldName].fn + "(" + _self.fields[_fieldName].name + ")'";
+						stringFields += fields[i].fn + "(" + _self.fields.name + ")'";
 					}
 				}
 			} else if (_self.fields.hasOwnProperty(fields[i])) {
@@ -303,12 +303,13 @@ var table = function(definition) {
 		stringStament += stringValues + "; ";
 
 		stringStament += _self.getSelectStatement({
-			fields: [{
-				id: {
+			fields: [
+				{
+					field: "id",
 					fn: "MAX",
 					as: "id"
 				}
-			}]
+			]
 		});		
 		// console.log("@INSERT_STATEMENT = ", stringStament);
 		

@@ -90,11 +90,51 @@ app.post('/savePromotion', function(request, response) {
    }); 
 });*/
 
-app.get("/testJoin", function(request, response) {
-	console.log("@testJoin", request.query);
-	restaurant.READ({
+app.get("/restaurant", function(request, response) {
+	console.log("@restaurant", request.query);
+	var _optionsQuery = {
+		fields: ["id", "name", "userName", "email"],
 		join: [{
+			table: restaurant,
+			fields: ["id", "idUser", "represent", "rtn"],
+			on: {
+				id: {
+					on: "idUser"
+				}
+			}
+		},{
+			leftTable: restaurant,
 			table: promotion,
+			fields: ["id", "restaurant", "name", "description"],
+			on: {
+				id: {
+					on: "restaurant"
+				}
+			}
+		}],
+		where: {
+			disabled: 0
+		}
+	};
+	
+	if (request.query.id) {
+		_optionsQuery.where.id = request.query.id;
+	}
+	user.READ(_optionsQuery, response);
+});
+
+app.get("/testJoin", function(request, response) {
+	user.READ({
+		join: [{
+			table: restaurant,
+			on: {
+				id: {
+					on: "idUser"
+				}
+			}
+		},{
+			table: promotion,
+			leftTable: promotion,
 			on: {
 				id: {
 					on: "restaurant"

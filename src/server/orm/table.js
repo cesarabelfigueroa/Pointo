@@ -44,6 +44,7 @@ var table = function(definition) {
 						console.error(err)	
 					}
 					if (object.response) {
+						console.log(recordset)
 						object.response.json(recordset || {});
 					}
 						// sql.close();
@@ -197,7 +198,13 @@ var table = function(definition) {
 			if (typeof(fields[i]) === "object") {
 				var _fieldName = Object.keys(fields[i])[0];
 				if (fields[i][_fieldName].hasOwnProperty("fn") && _self.fields.hasOwnProperty(_fieldName)) {
-					stringFields += fields[i][_fieldName].fn + "(" + _self.fields[_fieldName].name + ") AS '" + fields[i][_fieldName].fn + "'";
+					stringFields += fields[i][_fieldName].fn + "(" + _self.fields[_fieldName].name + ") AS '";
+
+					if (fields[i][_fieldName].hasOwnProperty("as")) {
+						stringFields += fields[i][_fieldName].as + "'";
+					} else {
+						stringFields += fields[i][_fieldName].fn + "(" + _self.fields[_fieldName].name + ")'";
+					}
 				}
 			} else if (_self.fields.hasOwnProperty(fields[i])) {
 				stringFields += _self.fields[fields[i]].name + (isOrderBy ? (" " + _orderBy) : "") + ",";
@@ -221,12 +228,13 @@ var table = function(definition) {
 	this.CREATE = function(object, response) {
 		callDB({
 			query: this.getInsertStatement(object),
-			callback: {
-				query: _self.getSelectStatement({
-					fields: [{id: {fn: "MAX"}}]
-				}),
-				response: response
-			}
+			response: response
+			// callback: {
+			// 	query: _self.getSelectStatement({
+			// 		fields: [{id: {fn: "MAX"}}]
+			// 	}),
+			// 	response: response
+			// }
 		});
 	};
 	this.getInsertStatement = function(object) {
@@ -292,7 +300,16 @@ var table = function(definition) {
 			stringValues = stringValues.slice(0, stringValues.length - 1);
 		}
 
-		stringStament += stringValues;
+		stringStament += stringValues + "; ";
+
+		stringStament += _self.getSelectStatement({
+			fields: [{
+				id: {
+					fn: "MAX",
+					as: "id"
+				}
+			}]
+		});		
 		// console.log("@INSERT_STATEMENT = ", stringStament);
 		
 		return stringStament;

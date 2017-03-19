@@ -5,9 +5,10 @@ import { LoginComponent } from './components/login/login.controller';
 import { SignUpComponent } from './components/signup/signup.component';
 import { ClientComponent } from './components/client/client.component';
 import { signupRestaurantComponent } from './components/signupRestaurant/signupRestaurant.component';
-
+import { restaurantComponent } from './components/restaurant/restaurant.component';
 
 const routes: Routes = [
+	{path: 'restaurant', component: restaurantComponent, pathMatch: 'prefix'},
 	{path: 'signupRestaurant', component: signupRestaurantComponent, pathMatch: 'prefix'},
 	{ path: 'login', component: LoginComponent, pathMatch: 'prefix' },
 	{ path: 'signup', component: SignUpComponent, pathMatch: 'prefix' },

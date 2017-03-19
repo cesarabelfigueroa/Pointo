@@ -12,6 +12,7 @@ import { ClientComponent } from
 './components/client/client.component';
 import { signupRestaurantComponent } from './components/signupRestaurant/signupRestaurant.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { restaurantComponent } from './components/restaurant/restaurant.component';
 import { routing } from './routes';
 import { HashLocationStrategy, LocationStrategy, Location } from '@angular/common';
 
@@ -24,7 +25,8 @@ import { HashLocationStrategy, LocationStrategy, Location } from '@angular/commo
     SignUpComponent,
     ClientComponent,
     signupRestaurantComponent,
-    NavbarComponent
+    NavbarComponent,
+    restaurantComponent
   ],
   imports: [
     routing,

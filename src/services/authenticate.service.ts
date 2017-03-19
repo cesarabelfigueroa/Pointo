@@ -15,8 +15,13 @@ export class AuthenticateService {
 		return this.http.get('/user?email=' + user.email+ '&password=' + user.password).map(res => res.json());
 	}
     
-    getPromotion(): Observable<any> {
-        return this.http.get('/promotion').map(res => res.json());
+    getPromotion(restaurant : any): Observable<any> {
+    	var URL = '/promotion';
+
+    	if (restaurant) {
+    		URL += "?idRestaurant=" + restaurant;
+    	}
+        return this.http.get(URL).map(res => res.json());
     }
 
 	getTable(): Observable<any> {

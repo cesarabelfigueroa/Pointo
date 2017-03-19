@@ -45,7 +45,7 @@ export class HomeComponent  implements OnInit{
 		});
 		console.log(dataService)
 		
-		dataService.getPromotion().subscribe(
+		dataService.getPromotion(false).subscribe(
 			data => this.promotions = data,
 			error => console.log(error)
 		);

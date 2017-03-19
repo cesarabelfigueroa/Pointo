@@ -64,12 +64,18 @@ app.get('/user', function(request, response) {
 });
 
 app.get('/promotion',function(request,response){
-   promotion.READ({
+	var _optionsQuery = {
        field:[],
        where: {
            disabled: 0
        }
-   },response); 
+   };
+
+   if (request.query.idRestaurant) {
+   		_optionsQuery.where.restaurant = request.query.idRestaurant;
+   }
+
+   promotion.READ(_optionsQuery,response); 
 });
 
 app.post('/savePromotion', function(request, response) {
@@ -223,6 +229,8 @@ app.get("/favoriteRestaurant", function(request,response){
         }]
     },response);
 });
+
+
 module.exports = app;
 
 

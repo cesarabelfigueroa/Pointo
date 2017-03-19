@@ -17,6 +17,7 @@ export class restaurantComponent {
 	private navbarItems;
 	private restaurant; 
 	private restaurants = [];
+	private promotions = [];
 
 	constructor(private dataService: AuthenticateService, router: Router) {
 		this.router = router;
@@ -40,6 +41,10 @@ export class restaurantComponent {
 
 	showModal(restaurant: any, element){
 		this.restaurant = restaurant;
+		this.dataService.getPromotion(this.restaurant["RESTAURANT.id"]).subscribe(
+			data => this.promotions = data,
+			error => console.log(error)
+		);
 		(<any>$('.ui.modal')).modal({
 			allowMultiple: false,
 		});

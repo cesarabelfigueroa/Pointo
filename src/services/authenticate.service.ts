@@ -45,6 +45,12 @@ export class AuthenticateService {
 		console.log(local, "En el service");
 		return this.http.post("/saveLocal", local,{headers: this.headers}).map(res => res.json());
 	}
+    
+    getfavoriteRestaurant(client : any){
+        console.log(client);
+        var clientData = JSON.parse(sessionStorage.getItem("loggedUser"));
+        var idClient = clientData.idClient;
+        return this.http.get("/favoriteRestaurant?id_client=" + idClient).map(res => res.json());
 
 }
 

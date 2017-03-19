@@ -196,7 +196,7 @@ var table = function(definition) {
 	 * 													Ejemplo: "[FIELD NAME], [FIELD NAME2]"
 	 */
 	var getStringFields = function(fields, isOrderBy, _table) {
-		console.log("@fields", fields)
+		// console.log("@fields", fields)
 		_table = _table || _self;
 		fields = fields || _table.fields;
 		var stringFields = "";
@@ -211,7 +211,6 @@ var table = function(definition) {
 
 				if (fields[i].startsWith("-") || fields[i].startsWith("+")) {
 					fields[i] = fields[i].slice(1, fields[i].length);
-					console.log("@fields[i]", fields[i])
 				}
 			}
 			if (typeof(fields[i]) === "object") {
@@ -398,7 +397,7 @@ var table = function(definition) {
 			if (object.join) {
 				for (var JOIN = 0; JOIN < object.join.length; JOIN++) {
 					var _join = object.join[JOIN];
-					var _outer = "INNER ";
+					var _outer = " INNER ";
 
 					if (_join.hasOwnProperty("outer")) {
 						_outer = _join.outer;
@@ -408,6 +407,10 @@ var table = function(definition) {
 						fieldsString += ", " + getStringFields(_join.fields, false, _join.table);
 					} else {
 						fieldsString += ", " + getStringFields(false, false, _join.table);
+					}
+
+					if (_join.leftTable) {
+						fieldsString += ", " + getStringFields(false, false, _join.leftTable);
 					}
 
 					stringJoin += _outer + " JOIN " + _join.table.nameInDB;
@@ -430,7 +433,6 @@ var table = function(definition) {
 
 		}
 		stringStament = "SELECT " + (Boolean(object.distinct) ? "DISTINCT " : "") + fieldsString + " FROM " + this.nameInDB + stringStament;
-		console.log(stringStament);
 		return stringStament;
 	};
 

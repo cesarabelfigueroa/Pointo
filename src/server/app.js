@@ -89,6 +89,8 @@ app.get('/local', function(request,response){
 	local.READ({field: []}, response);
 });
 
+
+
 app.post('/saveLocal', function(request, response){
 	console.log("Save Local",request.body);
 	if(request.body.id_local || request.body.id){
@@ -179,7 +181,31 @@ app.listen(app.get('port'), function() {
 	console.log('Angular 2 Full Stack listening on port ' + app.get('port'));
 });
 
-
+app.get("/favoriteRestaurant", function(request,response){
+    client_restaurant.READ({
+        join: [{
+            table: restaurant,
+            on: {
+                restaurant:{
+                    on: "id"
+                }
+            }
+        }, {
+            table: client,
+            on: {
+                client: request.query.id_client
+            }
+        }, {
+            leftTable: restaurant,
+            table: user, 
+            on: {
+                idUser: {
+                	on: "id"
+                }
+            }
+        }]
+    },response);
+});
 module.exports = app;
 
 

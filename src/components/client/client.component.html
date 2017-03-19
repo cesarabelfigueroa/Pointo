@@ -1,19 +1,20 @@
 <app-navbar [items] ="navbarItems" ></app-navbar>
 <div class="ui hidden divider"></div>
-<div class="ui container">
+<div class="ui container" >
+ <h1>Restaurantes Favoritos</h1>
   <div class="ui three stackable cards">
-      <div class="card" >
+      <div class="card" *ngFor="let myRestaurant of myRestaurants">
        <div class="image">
-        <img src="/assets/images/agregar.png">
+        <img src="{{myRestaurant['USERS.image']}}">   
       </div>
       <div class="content">
-        <a class="header" >Nombre Restaurante</a>
+        <a class="header" >"{{myRestaurant["USERS.name"]}}"</a>
         <div class="meta">
           <span class="description">Informacion del restaurante</span>
         </div>
       </div>
       <div class="extra content">
-        <span class="date">Otra info de restaurante</span>
+        <span class="date">"{{myRestaurant["USERS.email"]}}"</span>
       </div>
     </div>
   </div>

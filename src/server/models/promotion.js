@@ -21,6 +21,12 @@ var promotion = new Table({
 			dimension: 50,
 			hasNull: true
 		},
+        image: {
+			name: "image",
+			type: "string",
+			dimension: 50,
+			hasNull: true
+		},
 		description: {
 			name: "description",
 			type: "string",

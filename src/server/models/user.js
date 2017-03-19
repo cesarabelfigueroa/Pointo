@@ -32,6 +32,12 @@ var user = new Table({
 			type: "string",
 			defaultValue: "Tegucigalpa"
 		},
+        image: {
+			name: "image",
+			type: "string",
+			dimension: 50,
+			hasNull: true
+		},
 		disabled: {
 			name: "disabled",
 			type: "number",

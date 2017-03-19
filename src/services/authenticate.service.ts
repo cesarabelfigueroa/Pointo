@@ -56,6 +56,7 @@ export class AuthenticateService {
         var clientData = JSON.parse(sessionStorage.getItem("loggedUser"));
         var idClient = clientData.idClient;
         return this.http.get("/favoriteRestaurant?id_client=" + idClient).map(res => res.json());
+    }
 
 }
 

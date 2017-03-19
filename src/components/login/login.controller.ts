@@ -43,7 +43,11 @@ export class LoginComponent {
 	validUser(data: any) {
 		//Temporal
 		if (data.length > 0) {
-			sessionStorage.setItem("loggedUser", data[0].id);
+			sessionStorage.setItem("loggedUser", JSON.stringify({
+				idUser: data[0].id,
+				idClient: data[0]["CLIENT.id"],
+				idRestaurant: data[0]["RESTAURANT.id"]
+			}));
 		}
 		// console.log(data);
 	}

@@ -6,7 +6,7 @@ var sql = require("mssql");
 var fs = require('fs');
 var user = require('./models/user');
 var promotion = require('./models/promotion');
-var client = require('./models/promotion');
+var client = require('./models/client');
 var client_restaurant = require('./models/client_restaurant');
 var local = require('./models/local');
 var restaurant = require('./models/restaurant');
@@ -38,7 +38,24 @@ app.get('/assets/images/*', function(request, response) {
 
 app.get('/user', function(request, response) {
 	user.READ({
-		fields: [],
+		fields: ["id", "name", "userName", "email"],
+		join: [{
+			table: client,
+			outer: "left",
+			on: {
+				id: {
+					on: "user"
+				}
+			}
+		},{
+			table: restaurant,
+			outer: "left",
+			on: {
+				id: {
+					on: "idUser"
+				}
+			}
+		}],
 		where: {
 			email: request.query.email,
 			password: request.query.password

@@ -199,7 +199,9 @@ app.get("/favoriteRestaurant", function(request,response){
             leftTable: restaurant,
             table: user, 
             on: {
-                idUser: "id"
+                idUser: {
+                	on: "id"
+                }
             }
         }]
     },response);

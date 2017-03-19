@@ -89,6 +89,8 @@ app.get('/local', function(request,response){
 	local.READ(field: [], response);
 });
 
+
+
 app.post('/saveLocal', function(request, response){
 	console.log("Save Local",request.body);
 	if(request.body.id_local || request.body.id){

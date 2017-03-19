@@ -24,14 +24,14 @@ export class LoginComponent {
 
 	submitLogin() {
 
-		/*this.dataService.getUsers(this.user).subscribe(
+		this.dataService.getUsers(this.user).subscribe(
 			data => this.data = data,
 			error => console.log(error),
 			() => this.validUser(this.data)
-		);  */
+		);  
 
 		console.log($);
-		(<any>$('.ui.basic.modal')).modal('show');
+		// (<any>$('.ui.basic.modal')).modal('show');
 
 
 
@@ -41,6 +41,10 @@ export class LoginComponent {
 
 
 	validUser(data: any) {
-		console.log(data);
+		//Temporal
+		if (data.length > 0) {
+			sessionStorage.setItem("loggedUser", data[0].id);
+		}
+		// console.log(data);
 	}
 }

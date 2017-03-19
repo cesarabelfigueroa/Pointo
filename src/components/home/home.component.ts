@@ -30,20 +30,20 @@ export class HomeComponent  implements OnInit{
 		});
 
 		// EJEMPLO GUARDAR/Editar PROMCION
-		// dataService.savePromotion({
-		// 	id: 3,//Si se coloca el campo id se editará
-		// 	// restaurant: 12,
-		// 	name: "Funcionando Modificado",
-		// 	// description: "Hamburgesas de perro",
-		// 	// types: "toneles,tonelitos,carne",
-		// 	// initDate: new Date().toISOString(),
-		// 	// endDate: new Date("01/20/2017").toISOString()
+		dataService.savePromotion({
+	 	id: 3,//Si se coloca el campo id se editará
+		 restaurant: 12,
+			name: "Funcionando Modificado",
+		description: "Hamburgesas de perro",
+		types: "toneles,tonelitos,carne",
+		initDate: new Date().toISOString(),
+		endDate: new Date("01/20/2017").toISOString()
 
-		// }).subscribe(params => {
+		 }).subscribe(params => {
 		// 	//No Descomentar este reglon, sigo trabajando en ello lo de arriba si funciona
 		// 	//this.newPromotion = params['data'];
-		// });
-
+		});
+		console.log(dataService)
 		
 		dataService.getPromotion().subscribe(
 			data => this.promotions = data,

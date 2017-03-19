@@ -26,6 +26,21 @@ var table = function(definition) {
 	// var response = function(response) {
 
 	// };
+	// var parserJoin = function(data, join) {
+	// 	var map = {};
+
+	// 	for (var ROW = 0; ROW < data.length; ROW++) {
+	// 		for (var ON = 0; ON < join.length; ON++) {
+	// 			if (map.hasOwnProperty(data[ROW].id)) {
+	// 				map[data[ROW].id] = {};
+	// 			}
+	// 			var _leftTable = join[ON].leftTable.name || "";
+	// 			var _rightTable = join[ON].rightTable.name;
+
+
+	// 		}
+	// 	}
+	// };
 	var callDB = function(object) {
 		console.log("@query", object.query);
 
@@ -34,7 +49,7 @@ var table = function(definition) {
 			// var createRequest = function(_object) {
 			// 	console.log("@_object", _object.query);
 				var request = new sql.Request(connection);
-				
+
 				request.query(object.query, function(err, recordset) {
 					// if (_object.callback) {
 					// 	console.log("@callback", _object.callback);
@@ -44,6 +59,8 @@ var table = function(definition) {
 						console.error(err)	
 					}
 					if (object.response) {
+						// console.log(recordset);
+						// if (object.join) {}
 						object.response.json(recordset || {});
 					}
 						// sql.close();
@@ -87,12 +104,13 @@ var table = function(definition) {
 	 *		}]
 	 * @return     {string}  { String con la sentencia WHERE para query SQL }
 	 */
-	var _parseWhere = function(whereOptions, righTable) {
-		return " WHERE " + _parseCondition(whereOptions, righTable);
+	var _parseWhere = function(whereOptions, rightTable) {
+		return " WHERE " + _parseCondition(whereOptions, rightTable);
 	};
 
 
-	var _parseCondition = function(whereOptions, rightTable) {
+	var _parseCondition = function(whereOptions, leftTable,rightTable) {
+		leftTable = leftTable || _self;
 		var _stringWhere = "";
 		var _cont = 0;
 		for (var CONDITION in whereOptions) {
@@ -103,7 +121,7 @@ var table = function(definition) {
 					var ands = whereOptions[CONDITION];
 					_stringWhere += "("
 					for (var k = 0; k < ands.length; k++) {
-						_stringWhere += _parseCondition(ands[k]);
+						_stringWhere += _parseCondition(ands[k], leftTable, rightTable);
 
 						if (k < ands.length - 1) {
 							_stringWhere += (CONDITION === "$and" ? " AND " : " OR ");
@@ -112,15 +130,15 @@ var table = function(definition) {
 					_stringWhere += ")";
 				} else {
 					var _condition = whereOptions[CONDITION];
-					if (_self.fields.hasOwnProperty(CONDITION)) {
-						var _field = _self.fields[CONDITION];
+					if (leftTable.fields.hasOwnProperty(CONDITION)) {
+						var _field = leftTable.fields[CONDITION];
 
 						if (typeof(_condition) === "object" && !Array.isArray(_condition)) {
 							var oper = Object.keys(_condition)[0];
 							if (oper === "on") {
-								_value = rightTable.name + '.' + rightTable.fields[_condition[oper]].name;
+								_value = rightTable.fields[_condition[oper]].name;
 							} else {
-								_operator = operators[oper];
+								_operator = operators.hasOwnProperty(oper) ? operators[oper] : oper;
 								_value = _condition[oper];
 							}
 						} else {
@@ -150,7 +168,7 @@ var table = function(definition) {
 							_value = "'" + _value + "'";
 						}
 
-						_stringWhere += _field.name + _operator + _value;
+						_stringWhere += _field.name + " " + _operator + " " + _value;
 
 					} else {
 						throw "The table doesn't have the field: " + CONDITION;
@@ -177,8 +195,10 @@ var table = function(definition) {
 	 * @return     {<string>}   		stringFields	Cadena de texto con los nombres de las columnas separados por comas.
 	 * 													Ejemplo: "[FIELD NAME], [FIELD NAME2]"
 	 */
-	var getStringFields = function(fields, isOrderBy) {
+	var getStringFields = function(fields, isOrderBy, _table) {
 		console.log("@fields", fields)
+		_table = _table || _self;
+		fields = _table.fields;
 		var stringFields = "";
 		if (!Array.isArray(fields)) {
 			fields = Object.keys(fields);
@@ -195,12 +215,18 @@ var table = function(definition) {
 				}
 			}
 			if (typeof(fields[i]) === "object") {
-				var _fieldName = Object.keys(fields[i])[0];
-				if (fields[i][_fieldName].hasOwnProperty("fn") && _self.fields.hasOwnProperty(_fieldName)) {
-					stringFields += fields[i][_fieldName].fn + "(" + _self.fields[_fieldName].name + ") AS '" + fields[i][_fieldName].fn + "'";
+				var _fieldName = fields[i].field;
+				if (fields[i].hasOwnProperty("fn") && _table.fields.hasOwnProperty(_fieldName)) {
+					stringFields += fields[i].fn + "(" + _table.fields[_fieldName].name + ") AS '";
+
+					if (fields[i].hasOwnProperty("as")) {
+						stringFields += fields[i].as + "'";
+					} else {
+						stringFields += fields[i].fn + "(" + _table.fields.name + ")'";
+					}
 				}
-			} else if (_self.fields.hasOwnProperty(fields[i])) {
-				stringFields += _self.fields[fields[i]].name + (isOrderBy ? (" " + _orderBy) : "") + ",";
+			} else if (_table.fields.hasOwnProperty(fields[i])) {
+				stringFields += _table.fields[fields[i]].name + (isOrderBy ? (" " + _orderBy) : "") + " AS '" + (_table.name !== _self.name ? (_table.name + ".") : "") + fields[i] + "',";
 			}
 		}
 		if (stringFields.endsWith(",")) {
@@ -221,12 +247,13 @@ var table = function(definition) {
 	this.CREATE = function(object, response) {
 		callDB({
 			query: this.getInsertStatement(object),
-			callback: {
-				query: _self.getSelectStatement({
-					fields: [{id: {fn: "MAX"}}]
-				}),
-				response: response
-			}
+			response: response
+			// callback: {
+			// 	query: _self.getSelectStatement({
+			// 		fields: [{id: {fn: "MAX"}}]
+			// 	}),
+			// 	response: response
+			// }
 		});
 	};
 	this.getInsertStatement = function(object) {
@@ -292,7 +319,17 @@ var table = function(definition) {
 			stringValues = stringValues.slice(0, stringValues.length - 1);
 		}
 
-		stringStament += stringValues;
+		stringStament += stringValues + "; ";
+
+		stringStament += _self.getSelectStatement({
+			fields: [
+				{
+					field: "id",
+					fn: "MAX",
+					as: "id"
+				}
+			]
+		});		
 		// console.log("@INSERT_STATEMENT = ", stringStament);
 		
 		return stringStament;
@@ -335,39 +372,46 @@ var table = function(definition) {
 		
 	this.READ = function(object, response) {
 		callDB({
-			query: this.getSelectStatement(), 
-			response: response
+			query: this.getSelectStatement(object), 
+			response: response,
+			join: Boolean(object.join)
 		});
 	};
 	this.getSelectStatement = function(object) {
 		object = object || {};
-		var stringStament = "SELECT " + (Boolean(object.distinct) ? "DISTINCT " : "");
+		var stringStament = "";//"SELECT " + (Boolean(object.distinct) ? "DISTINCT " : "");
+		var fieldsString = "";
 		if (!object) {
-			stringStament += "* FROM " + this.nameInDB;
+			fieldsString += "* ";
 		} else {
 			if (!object.fields) {
-				stringStament += "*";
+				fieldsString += getStringFields();
 			} else {
 				if (object.fields.length > 0) {
-					stringStament += getStringFields(object.fields);
+					fieldsString = getStringFields(object.fields);
 				} else {
-					stringStament += "*"
+					fieldsString = getStringFields();
 				}
 			}
-			stringStament += " FROM " + this.nameInDB;
 
 			var stringJoin = "";
 			if (object.join) {
 				for (var JOIN = 0; JOIN < object.join.length; JOIN++) {
 					var _join = object.join[JOIN];
-					var _outer = "INNER";
+					var _outer = "INNER ";
 
 					if (_join.hasOwnProperty("outer")) {
 						_outer = _join.outer;
 					}
 
-					stringJoin += _outer + " JOIN " + _join.table.name;
-					stringJoin += " ON " + _parseCondition(_join.on, _join.table);
+					if (_join.hasOwnProperty("fields")) {
+						fieldsString += ", " + getStringFields(_join.fields, false, _join.table);
+					} else {
+						fieldsString += ", " + getStringFields(false, false, _join.table);
+					}
+
+					stringJoin += _outer + " JOIN " + _join.table.nameInDB;
+					stringJoin += " ON " + _parseCondition(_join.on, _join.leftTable, _join.table);
 				}
 			}
 			stringStament += stringJoin;
@@ -385,7 +429,8 @@ var table = function(definition) {
 			}
 
 		}
-		// console.log(stringStament);
+		stringStament = "SELECT " + (Boolean(object.distinct) ? "DISTINCT " : "") + fieldsString + " FROM " + this.nameInDB + stringStament;
+		console.log(stringStament);
 		return stringStament;
 	};
 

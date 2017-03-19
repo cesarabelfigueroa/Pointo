@@ -1,0 +1,90 @@
+<div class = "ui inverted vertical masthead center aligned segment">
+</div>
+<div class = "ui hidden divider"></div>
+<div class = "ui container">
+    <form class = "ui segment ui form">
+        <div class = "ui field">
+            <label>Nombre</label>
+            <input type = "text" name = "name" placeholder = "Nombre de Restaurante" >
+        </div>
+        <div class = "field">
+            <label>Username</label>
+            <input type = "text" name = "username" placeholder = "Usuario de Restaurante">
+        </div>
+         <div class = "field">
+            <label aLignment = left>Email</label>
+            <input type = "text" name = "Email" placeholder = "Email de Restaurante">
+         </div>
+        <div class = "field">
+            <label>Password</label>
+            <input type = "text" name = "Password" placeholder = "Password de Restaurante">
+        </div>
+        <div class = "ui button">
+            <label>Commit Changes</label>
+        </div> 
+      </form>
+ </div>
+      <div class = "ui horizontal divider"> </div>
+        <div class = "ui container">
+          <div class = "ui three stackables cards">
+            <div class="card" *ngFor="let promotion of promotions">
+              <div class="image" (click) = "showModal($event)">
+                <img src="/assets/images/agregar.png">
+              </div>
+              <div class="content">
+                <a class="header">{{promotion.name}}</a>
+                <div class="meta">
+                  <span class="description">{{promotion.description}}</span>
+                </div>
+              </div>
+              <div class="extra content">
+                <span class="date">{{promotion.endDate  | date }}</span>
+              </div>
+            </div>
+            <div class></div>
+          </div>
+</div>
+
+<div class = "ui createUpdate modal" name = "createLocal" id = modal1 >
+    <i class = "close icon"></i>
+    <div class = "image content">
+        <div class = "ui large image">
+            <img src = "/assets/images/app.jpg">
+        </div>
+        <div class = "description">
+          <form class = "ui form" >
+            <div class = "ui header">
+                Registro de Locales
+            </div>
+            <div class = "one field">
+              <div class = "field">
+                <label>Direccion</label>
+                <input type = "text" name = "adress" placeholder = "Direccion" [(ngModel)] = "local.adress">
+              </div>
+              <div class = "field">
+                <label>Telefono</label>
+                <input type = "tel" name = "phone" placeholder = "Telefono" [(ngModel)] = "local.phone">
+                </div>
+              <div class = "field">
+                <label>Gerente</label>
+                <input type = "text" name = "gerent" placeholder = "Gerente" [(ngModel)] = "local.gerent">      
+              </div>
+              <div class = "field">
+                <label>Hora de Inicio</label>
+                <input type = "time" name = "initAt"  [(ngModel)] = "local.initAt">
+              </div>
+              <div class = "field">
+                <label>Hora de Salida</label>
+                <input type = "time" name = "endAt" [(ngModel)] = "local.endAt">
+              </div>
+            </div>
+             <div class="actions">
+                <button class="ui positive right labeled icon button"  (click) = "saveLocal()">
+                  <i class="checkmark icon"></i>
+                </button>
+              </div>
+        </form>          
+        </div>
+    </div>
+   
+</div>

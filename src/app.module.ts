@@ -8,6 +8,8 @@ import { LoginComponent } from './components/login/login.controller';
 import { AppComponent } from './components/app/app.controller';
 import { AuthenticateService } from './services/authenticate.service';
 import { SignUpComponent } from './components/signup/signup.component';
+import { ClientComponent } from
+'./components/client/client.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { routing } from './routes'
 import { HashLocationStrategy, LocationStrategy, Location } from '@angular/common';
@@ -19,6 +21,7 @@ import { HashLocationStrategy, LocationStrategy, Location } from '@angular/commo
     HomeComponent,
     LoginComponent,
     SignUpComponent,
+    ClientComponent,
     NavbarComponent
   ],
   imports: [

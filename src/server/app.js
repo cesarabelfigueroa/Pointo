@@ -7,7 +7,7 @@ var fs = require('fs');
 var user = require('./models/user');
 var promotion = require('./models/promotion');
 var client = require('./models/promotion');
-var client_restaurant = 
+var client_restaurant = require('./models/client_restaurant');
 
 var app = express();
 

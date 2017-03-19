@@ -42,7 +42,7 @@ export class AuthenticateService {
 	}
 
 	saveLocal(local : any) {
-		console.log(local, "En el service");
+		//console.log(local, "En el service");
 		return this.http.post("/saveLocal", local,{headers: this.headers}).map(res => res.json());
 	}
 

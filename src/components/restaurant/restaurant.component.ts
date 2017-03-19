@@ -15,6 +15,8 @@ export class restaurantComponent {
 	private router;
 	private type;
 	private navbarItems;
+	private restaurant; 
+	private restaurants = [];
 
 	constructor(private dataService: AuthenticateService, router: Router) {
 		this.router = router;
@@ -29,15 +31,19 @@ export class restaurantComponent {
 		}, {
 			name: 'Restaurantes'
 		}]
+
+		dataService.getRestaurants("").subscribe(
+			data => this.restaurants = data,
+			error => console.log(error)
+		);
 	}
 
-	showModal(element){
+	showModal(restaurant: any, element){
+		this.restaurant = restaurant;
 		(<any>$('.ui.modal')).modal({
 			allowMultiple: false,
 		});
 		(<any>$('#modal0')).modal('show');
 	}
-
-
 }
 

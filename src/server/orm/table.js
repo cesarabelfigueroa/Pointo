@@ -198,7 +198,7 @@ var table = function(definition) {
 	var getStringFields = function(fields, isOrderBy, _table) {
 		console.log("@fields", fields)
 		_table = _table || _self;
-		fields = _table.fields;
+		fields = fields || _table.fields;
 		var stringFields = "";
 		if (!Array.isArray(fields)) {
 			fields = Object.keys(fields);

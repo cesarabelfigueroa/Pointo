@@ -122,16 +122,18 @@ app.get("/restaurant", function(request, response) {
 					on: "idUser"
 				}
 			}
-		},{
-			leftTable: restaurant,
-			table: promotion,
-			fields: ["id", "restaurant", "name", "description"],
-			on: {
-				id: {
-					on: "restaurant"
-				}
-			}
-		}],
+		}
+		// ,{
+		// 	leftTable: restaurant,
+		// 	table: promotion,
+		// 	fields: ["id", "restaurant", "name", "description"],
+		// 	on: {
+		// 		id: {
+		// 			on: "restaurant"
+		// 		}
+		// 	}
+		// }
+		],
 		where: {
 			disabled: 0
 		}

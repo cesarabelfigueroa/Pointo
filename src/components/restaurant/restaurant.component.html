@@ -20,7 +20,7 @@
   <div class="ui three stackable cards">
    <div class="card" *ngFor = "let restaurant of restaurants">
        <div class="image" (click) = "showModal(restaurant,$event)">
-        <img src="/assets/images/agregar.png">
+        <img src="/assets/images/app.jpg">
       </div>
       <div class="content">
         <a class="header">{{restaurant["RESTAURANT.represent"]}}</a>
@@ -38,16 +38,35 @@
   </div>
   <div class="image content">
     <div class="ui medium image" >
-      <img src="/assets/images/agregar.png">
+      <img src="/assets/images/app.jpg">
     </div>
     <div class="description">
-      <div class="ui header">{{restaurant.name}}</div>
+      <div class="ui header">
+        <label>Nombre: </label>
+        {{restaurant.name}}
+      </div>
+      <label>Email: </label>
       <p>{{restaurant.email}}</p>
-      <p>{{restaurant.email}}</p>
+      <label>Gerente: </label>
       <p>{{restaurant["RESTAURANT.represent"]}}</p>
+      <label>RTN: </label>
       <p>{{restaurant["RESTAURANT.rtn"]}}</p>
-    </div>
+      <div class="ui horizontal list" *ngFor = "let promotion of promotions">
+   <div class = "item">
+     <img class = "ui avatar image" src = "/assets/images/pizza.png">
+     <div class = "content">
+       <a class = "header">{{promotion.name}}</a>
+       <div class = "description">
+         {{promotion.description}}
+       </div>
+     </div>
+   </div>
   </div>
+    </div>
+
+  </div>
+
+
   <div class="actions">
     <div class="ui positive right labeled icon button">
       Ok

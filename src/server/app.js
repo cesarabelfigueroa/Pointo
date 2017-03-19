@@ -86,7 +86,7 @@ app.post('/savePromotion', function(request, response) {
 
 
 app.get('/local', function(request,response){
-	local.READ(field: [], response);
+	local.READ({field: []}, response);
 });
 
 
@@ -101,6 +101,7 @@ app.post('/saveLocal', function(request, response){
 	}else{
 		local.CREATE(request.body,response);
 	}
+});
 
 app.get("/restaurant", function(request, response) {
 	console.log("@restaurant", request.query);

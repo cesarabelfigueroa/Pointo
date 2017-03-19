@@ -1,0 +1,55 @@
+<app-navbar [items] ="navbarItems" ></app-navbar>
+<div class="ui grid">
+<div class="row">
+  <div class="column">
+    <div class="ui huge message page grid center aligned">
+      <select class="ui search dropdown">
+        <option value=""></option>
+        <option *ngFor="let option of searchOptions" value="{{option.value}}" >Restaurantes</option>
+      </select>
+      <div class="ui left icon action input">
+        <input type="text" placeholder="Order #">
+        <div class="ui blue submit button">Go</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="ui hidden divider"></div>
+<div class="ui container">
+  <div class="ui three stackable cards">
+   <div class="card" >
+       <div class="image" (click) = "showModal($event)">
+        <img src="/assets/images/agregar.png">
+      </div>
+      <div class="content">
+        <a class="header">Visualizar Restaurante</a>
+        <div class="meta">
+          <span class="description">Aqui vendra el nombre y la imagen</span>
+        </div>
+      </div>
+    </div>
+    </div> 
+
+<div class="ui read modal" id="modal0">
+  <i class="close icon"></i>
+  <div class="header">
+    Restaurante
+  </div>
+  <div class="image content">
+    <div class="ui medium image" >
+      <img src="/assets/images/agregar.png">
+    </div>
+    <div class="description">
+      <div class="ui header">Nombre del Restaurante</div>
+      <p>Descripcion del Restaurante</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui positive right labeled icon button">
+      Ok
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>  
+

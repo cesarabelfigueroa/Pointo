@@ -6,8 +6,11 @@ var sql = require("mssql");
 var fs = require('fs');
 var user = require('./models/user');
 var promotion = require('./models/promotion');
+var client = require('./models/promotion');
+var client_restaurant = require('./models/client_restaurant');
 var local = require('./models/local');
 var restaurant = require('./models/restaurant');
+
 var app = express();
 
 app.set('port', (process.env.PORT || 3000));
@@ -83,7 +86,7 @@ app.post('/savePromotion', function(request, response) {
 
 
 app.get('/local', function(request,response){
-	local.READ(field: [], response);
+	local.READ({field: []}, response);
 });
 
 app.post('/saveLocal', function(request, response){
@@ -96,6 +99,7 @@ app.post('/saveLocal', function(request, response){
 	}else{
 		local.CREATE(request.body,response);
 	}
+});
 
 app.get("/restaurant", function(request, response) {
 	console.log("@restaurant", request.query);

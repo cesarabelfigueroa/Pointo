@@ -50,6 +50,8 @@ var table = function(definition) {
             // 	console.log("@_object", _object.query);
             var request = new sql.Request(connection);
 
+            console.log(object,'object');
+
             request.query(object.query, function(err, recordset) {
                 // if (_object.callback) {
                 // 	console.log("@callback", _object.callback);
@@ -244,6 +246,7 @@ var table = function(definition) {
 	 * @return     {string}	stringStament 	Statement para la insercción
 	 */
     this.CREATE = function(object, response) {
+
         callDB({
             query: this.getInsertStatement(object),
             response: response
@@ -255,6 +258,7 @@ var table = function(definition) {
             // }
         });
     };
+
     this.getInsertStatement = function(object) {
         var stringStament = "INSERT INTO " + this.nameInDB + " (";
         var stringValues = ") VALUES ";
@@ -330,7 +334,7 @@ var table = function(definition) {
             ]
         });		
         // console.log("@INSERT_STATEMENT = ", stringStament);
-
+        console.log(stringStament);
         return stringStament;
     };
 

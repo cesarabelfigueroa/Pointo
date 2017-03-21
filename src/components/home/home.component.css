@@ -20,3 +20,8 @@
     right: 0;
     top: 0;
 }*/
+
+.ui.search.dropdown.especial{
+    min-width: 200px !important;
+    min-height: 55px !important;
+}

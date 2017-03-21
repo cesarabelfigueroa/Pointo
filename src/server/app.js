@@ -1,4 +1,5 @@
 var express = require('express');
+var fs = require('fs');
 var http = require('http');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -47,7 +48,7 @@ app.get('/user', function(request, response) {
 					on: "user"
 				}
 			}
-		},{
+		}, {
 			table: restaurant,
 			outer: "left",
 			on: {
@@ -63,67 +64,63 @@ app.get('/user', function(request, response) {
 	}, response);
 });
 
-app.get('/promotion',function(request,response){
+app.get('/promotion', function(request, response) {
 	var _optionsQuery = {
-       field:[],
-       where: {
-           disabled: 0
-       }
-   };
+		field: [],
+		where: {
+			disabled: 0
+		}
+	};
 
-   if (request.query.idRestaurant) {
-   		_optionsQuery.where.restaurant = request.query.idRestaurant;
-   }
+	if (request.query.idRestaurant) {
+		_optionsQuery.where.restaurant = request.query.idRestaurant;
+	}
 
-   promotion.READ(_optionsQuery,response); 
+	promotion.READ(_optionsQuery, response);
 });
 
 app.post('/savePromotion', function(request, response) {
-	console.log("@savePromotion", request.body);
+	var data = request.body.image;
+	var base64Data = data.replace(/^data:image\/png;base64,/, '');
+	var url = "./src/assets/images/" + request.body.name + ".png";
+	fs.writeFile(url, base64Data, "base64", function(err) {
+		request.body.image = "/assets/images/" + request.body.name + ".png";
+		if (request.body.id_promotion || request.body.id) {
+			request.body.id = request.body.id_promotion || request.body.id;
+			promotion.UPDATE({
+				fields: request.body
+			}, response);
+		} else {
+			promotion.CREATE(request.body, response);
+		}
+	});
+})
 
-	if (request.body.id_promotion || request.body.id) {
-        console.log("Entro");
-		request.body.id = request.body.id_promotion || request.body.id;
-		promotion.UPDATE({
-			fields: request.body
-		}, response);
-	} else {
-		promotion.CREATE(request.body, response);
-	}
-	// promotion.CREATE({
-	// 	restaurant: request.body.restaurant,
-	// 	name: request.body.name,
-	// 	description: request.body.description,
-	// 	types: request.body.types,
-	// 	initDate: request.body.initDate,
-	// 	endDate: request.body.endDate
-	// }, response);
+
+
+app.get('/local', function(request, response) {
+	local.READ({
+		field: []
+	}, response);
 });
 
-/*app.post('/promotion', function(request,response){
-    let name:String=request.body.name;
-    
-   promotion.CREATE({
-       
-   }); 
-});*/
-
-
-app.get('/local', function(request,response){
-	local.READ({field: []}, response);
-});
+app.post('/deletePromotion', function(request, response) {
+	promotion.UPDATE({
+		fields: request.body
+	}, response);
+})
 
 
 
-app.post('/saveLocal', function(request, response){
-	console.log("Save Local",request.body);
-	if(request.body.id_local || request.body.id){
+app.post('/saveLocal', function(request, response) {
+	console.log("Save Local", request.body);
+	if (request.body.id_local || request.body.id) {
 		request.body.id = request.body.id_local || request.body.id;
 		local.UPDATE({
 			fields: request.body
 		}, response);
-	}else{
-		local.CREATE(request.body,response);
+	} else {
+		local.CREATE(request.body, response);
 	}
 });
 
@@ -146,23 +143,12 @@ app.get("/restaurant", function(request, response) {
 					on: "idUser"
 				}
 			}
-		}
-		// ,{
-		// 	leftTable: restaurant,
-		// 	table: promotion,
-		// 	fields: ["id", "restaurant", "name", "description"],
-		// 	on: {
-		// 		id: {
-		// 			on: "restaurant"
-		// 		}
-		// 	}
-		// }
-		],
+		}],
 		where: {
 			disabled: 0
 		}
 	};
-	
+
 	if (object.name) {
 		_optionsQuery.where.name = {
 			LIKE: "%" + object.name + "%"
@@ -174,6 +160,12 @@ app.get("/restaurant", function(request, response) {
 	user.READ(_optionsQuery, response);
 });
 
+
+app.post("/createUser", function(request, response) {
+	console.log(request.body)
+	user.CREATE(request.body, response);
+});
+
 app.get("/testJoin", function(request, response) {
 	user.READ({
 		join: [{
@@ -183,7 +175,7 @@ app.get("/testJoin", function(request, response) {
 					on: "idUser"
 				}
 			}
-		},{
+		}, {
 			table: promotion,
 			leftTable: promotion,
 			on: {
@@ -193,10 +185,9 @@ app.get("/testJoin", function(request, response) {
 			}
 		}],
 		where: {
-			id:  request.query.id
+			id: request.query.id
 		}
 	}, response);
-	// response.json({});
 });
 
 
@@ -205,30 +196,30 @@ app.listen(app.get('port'), function() {
 	console.log('Angular 2 Full Stack listening on port ' + app.get('port'));
 });
 
-app.get("/favoriteRestaurant", function(request,response){
-    client_restaurant.READ({
-        join: [{
-            table: restaurant,
-            on: {
-                restaurant:{
-                    on: "id"
-                }
-            }
-        }, {
-            table: client,
-            on: {
-                client: request.query.id_client
-            }
-        }, {
-            leftTable: restaurant,
-            table: user, 
-            on: {
-                idUser: {
-                	on: "id"
-                }
-            }
-        }]
-    },response);
+app.get("/favoriteRestaurant", function(request, response) {
+	client_restaurant.READ({
+		join: [{
+			table: restaurant,
+			on: {
+				restaurant: {
+					on: "id"
+				}
+			}
+		}, {
+			table: client,
+			on: {
+				client: request.query.id_client
+			}
+		}, {
+			leftTable: restaurant,
+			table: user,
+			on: {
+				idUser: {
+					on: "id"
+				}
+			}
+		}]
+	}, response);
 });
 
 

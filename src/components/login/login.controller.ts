@@ -28,7 +28,7 @@ export class LoginComponent {
 			data => this.data = data,
 			error => console.log(error),
 			() => this.validUser(this.data)
-		);  
+		);
 
 		console.log($);
 		// (<any>$('.ui.basic.modal')).modal('show');
@@ -48,6 +48,8 @@ export class LoginComponent {
 				idClient: data[0]["CLIENT.id"],
 				idRestaurant: data[0]["RESTAURANT.id"]
 			}));
+
+			this.router.navigate(['/home/']);
 		}
 		// console.log(data);
 	}

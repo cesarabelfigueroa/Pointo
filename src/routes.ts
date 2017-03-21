@@ -8,7 +8,7 @@ import { signupRestaurantComponent } from './components/signupRestaurant/signupR
 import { restaurantComponent } from './components/restaurant/restaurant.component';
 
 const routes: Routes = [
-	{path: 'restaurant', component: restaurantComponent, pathMatch: 'prefix'},
+	{path: 'restaurants', component: restaurantComponent, pathMatch: 'prefix'},
 	{path: 'signupRestaurant', component: signupRestaurantComponent, pathMatch: 'prefix'},
 	{ path: 'login', component: LoginComponent, pathMatch: 'prefix' },
 	{ path: 'signup', component: SignUpComponent, pathMatch: 'prefix' },

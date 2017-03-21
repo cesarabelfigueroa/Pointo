@@ -11,10 +11,22 @@ import { AuthenticateService } from '../../services/authenticate.service';
 
 export class SignUpComponent implements OnInit {
 
-	private users;
+	private user = {
+		type: ''
+	};
 
 
 	constructor(private dataService: AuthenticateService) {
+
+	}
+
+	submit(){
+		this.dataService.createUser(this.user).subscribe(params => { });
+	}
+
+
+	changeProperty(type: any){
+		this.user.type = type;
 
 	}
 

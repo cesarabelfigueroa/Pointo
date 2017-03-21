@@ -20,7 +20,7 @@ export class HomeComponent  implements OnInit{
 	private navbarItems;
 	private user;
 
-	constructor(dataService: AuthenticateService, router: Router, route: ActivatedRoute) {
+	constructor(private dataService: AuthenticateService, router: Router, route: ActivatedRoute) {
 		this.router = router;
 		this.route = route;
 
@@ -45,7 +45,10 @@ export class HomeComponent  implements OnInit{
 		});
 		console.log(dataService)
 		
-		dataService.getPromotion(false).subscribe(
+        var restaurantData = JSON.parse(sessionStorage.getItem("loggedUser"));
+        var idRestaurant = restaurantData.idRestaurant;
+        
+		dataService.getPromotion(idRestaurant).subscribe(
 			data => this.promotions = data,
 			error => console.log(error)
 		);
@@ -62,7 +65,7 @@ export class HomeComponent  implements OnInit{
 		}]
 	}
     
-    test(promotion : any){
+    showModal1(promotion : any){
         this.promotion = promotion;
         console.log(promotion);
         (<any>$('.ui.modal')).modal({
@@ -71,11 +74,17 @@ export class HomeComponent  implements OnInit{
         (<any>$('#modal0')).modal('show');
     }
     
-    newPromotion(){
+    showModal2(promotion : any){
+        this.promotion = promotion;
         (<any>$('.ui.modal')).modal({
             allowMultiple: false,
         });
         (<any>$('#modal1')).modal('show');
+    }
+    
+    savePromotion(){
+        console.log(this.promotion);
+        this.dataService.savePromotion(this.promotion).subscribe(params =>  {});
     }
 
 	ngOnInit() {

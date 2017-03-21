@@ -33,6 +33,11 @@ export class AuthenticateService {
 	}
 
 	savePromotion(promotion : any) {
+        if (!promotion.hasOwnProperty("restaurant")) {
+            var restaurantData = JSON.parse(sessionStorage.getItem("loggedUser"));
+            var idRestaurant = restaurantData.idRestaurant;
+            promotion.restaurant=idRestaurant;
+        }
 		console.log(promotion);
 		return this.http.post("/savePromotion", promotion, {headers: this.headers}).map(res => res.json());
 	}

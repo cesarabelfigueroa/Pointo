@@ -18,7 +18,7 @@
 <div class="ui hidden divider"></div>
 <div class="ui container">
   <div class="ui three stackable cards">
-   <div class="card"  on-click="newPromotion({})">
+   <div class="card"  on-click="showModal2({})">
        <div class="image">
         <img src="/assets/images/agregar.png">
       </div>
@@ -32,12 +32,12 @@
     <div class="card" *ngFor="let promotion of promotions">
        <div class="image">
         <img src="{{promotion.image}}">
-        <i class="huge circular inverted users icons" on-click="newPromotion()">
+        <i class="huge circular inverted users icons" on-click="showModal2(promotion)">
           <i class="circular tiny configure icon"></i>
         </i>
       </div>
       <div class="content">
-        <a class="header" on-click="test(promotion)">{{promotion.name}}</a>
+        <a class="header" on-click="showModal1(promotion)">{{promotion.name}}</a>
         <div class="meta">
           <span class="description">{{promotion.description}}</span>
         </div>
@@ -73,7 +73,7 @@
   </div>
 </div>  
 
-<div class="ui createUpdate modal" id="modal1"> 
+<div class="ui createUpdate modal" id="modal1" *ngIf="promotion"> 
   <i class="close icon"></i>
   <div class="header">
     Crear Promoción
@@ -90,28 +90,40 @@
                    <label>Nombre</label>
                     <div class="ui input left icon">
                         <i class="browser outline icon"></i>
-                        <input type ="text" placeholder = "Nombre">
+                        <input value ="{{promotion.name}}" 
+                        type = "text"  
+                        placeholder = "Nombre"
+                        [(ngModel)] = "promotion.name">
                   </div> 
                 </div>       
                <div class="field">
                    <label>Descripcion</label>
                     <div class="ui input left icon">
                         <i class="comment outline icon"></i>
-                        <input type ="text"  placeholder = "Descripcion">
+                        <input value ="{{promotion.description}}" 
+                        type = "text"  
+                        placeholder = "Descripcion"
+                        [(ngModel)] = "promotion.description">
                   </div> 
                 </div>
                 <div class="field">
                   <label>Inicio</label>
                    <div class="ui input left icon">
                         <i class="calendar icon"></i>
-                        <input type = "date" placeholder = "Inicio">
+                        <input value ="{{promotion.initDate  | date }}" 
+                        type = "date"  
+                        placeholder = "Inicio"
+                        [(ngModel)] = "promotion.initDate">
                   </div>                    
                 </div>
                 <div class="field">
                    <label>Final</label>
                     <div class="ui input left icon">
                         <i class="calendar icon"></i>
-                        <input type = "date" placeholder = "Final">
+                        <input value ="{{promotion.endDate  | date }}" 
+                        type = "date"  
+                        placeholder = "Final"
+                        [(ngModel)] = "promotion.endDate">
                   </div> 
                 </div>
             </div>
@@ -119,9 +131,10 @@
     </div>
   </div>
   <div class="actions">
-    <div class="ui positive right labeled icon button">
-      Ok
+    <button class="ui positive right labeled icon button"
+      (click) = "savePromotion()">
+          Salvar
       <i class="checkmark icon"></i>
-    </div>
+    </button>
   </div>
 </div>  

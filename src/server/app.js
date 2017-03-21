@@ -82,6 +82,7 @@ app.post('/savePromotion', function(request, response) {
 	console.log("@savePromotion", request.body);
 
 	if (request.body.id_promotion || request.body.id) {
+        console.log("Entro");
 		request.body.id = request.body.id_promotion || request.body.id;
 		promotion.UPDATE({
 			fields: request.body

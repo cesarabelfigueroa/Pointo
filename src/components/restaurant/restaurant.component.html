@@ -49,7 +49,7 @@
     </div> 
 
     <div class="ui read modal" id="modal0" *ngIf = "restaurant">
-        <i class="close icon"></i>
+        <i class="close icon" (click) = "cleanRestaurant()"></i>
         <div class="header">
             Restaurante
         </div>
@@ -91,7 +91,7 @@
     </div>  
 
     <div class="ui read modal" id="modal1" *ngIf = "local">
-        <i class="close icon"></i>
+        <i class="close icon" (click) = "cleanLocal()"></i>
         <div class="header">
             Local
         </div>
@@ -120,7 +120,7 @@
 
 
         <div class="actions">
-            <div class="ui positive right labeled icon button">
+            <div class="ui positive right labeled icon button" (click) = "cleanLocal()">
                 Ok
                 <i class="checkmark icon"></i>
             </div>

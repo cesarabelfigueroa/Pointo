@@ -124,8 +124,17 @@ export class restaurantComponent {
 			allowMultiple: false,
 		});
 		(<any>$('#modal0')).modal('show');
+		this.cleanRestaurant();
 	}
     
+    cleanRestaurant(){
+    	this.restaurant = {};
+    }
+
+    cleanLocal(){
+    	//this.local = {};
+    	this.router.navigate(['/restaurants/']);
+    }
     addFavorite(restaurant:any){
         this.restaurant = restaurant;
         if (this.user.idClient) {
@@ -141,11 +150,12 @@ export class restaurantComponent {
 
 	showModal2(local : any,element){
 		this.local = local;
-		(<any>$('.small.modal')).modal({
+		(<any>$('.ui.modal')).modal({
 			allowMultiple: false,
 		});
 		(<any>$('#modal1')).modal('show');
 	}
 
+      
 }
 

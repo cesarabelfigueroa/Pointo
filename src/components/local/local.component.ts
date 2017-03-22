@@ -110,7 +110,6 @@ export class localComponent {
 				data => this.locals = data,
 				error => console.log(error)
 			);
-
 	}
 
 	showModal3(element){	
@@ -133,24 +132,27 @@ export class localComponent {
 	}
 
 	saveLocal(){
-		this.dataService.saveLocal(this.local).subscribe(params =>  {});
-		this.dataService.getMyLocals(this.user).subscribe(
-				data => this.locals = data,
-				error => console.log(error)
-			);
+		this.dataService.saveLocal(this.local,this.user.idRestaurant).subscribe(params =>  {});
+		
+		this.cleanLocal();
 	}
 
 	deleteLocal(local:any){
 		if (this.user && this.user.idRestaurant) {
 			this.dataService.deleteLocal(local).subscribe(params => { });
-			this.dataService.getMyLocals(this.user.idRestaurant).subscribe(
-				data => this.locals = data,
-				error => console.log(error));
+						
+				this.cleanLocal();
 			}
 	}
 
-	updateUser(){
-		
+	cleanLocal(){
+		this.dataService.getMyLocals(this.user).subscribe(
+				data => this.locals = data,
+				error => console.log(error));
+		this.local = {};
+	}
+	updateUser(user: any){
+		this.dataService.createUser(user).subscribe(params =>  {});
 	}
 
 }

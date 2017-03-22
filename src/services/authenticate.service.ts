@@ -66,12 +66,14 @@ export class AuthenticateService {
 	}
 
 
-	saveLocal(local: any) {
+	saveLocal(local: any , id : any) {
+		local.restaurant = id;
 		return this.http.post("/saveLocal", local, { headers: this.headers }).map(res => res.json());
 	}
 
 
 	createUser(user: any){
+		console.log(user);
 		return this.http.post("/createUser", user, { headers: this.headers }).map(res => res.json());
 	}
 

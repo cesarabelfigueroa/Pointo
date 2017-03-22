@@ -35,7 +35,7 @@
             <label aLignment = left>Email</label>
             <input type = "text" name = "Email" value = "{{restaurant.email}}">
          </div>      
-        <div class = "ui button" (click) = updateUser()>
+        <div class = "ui button" (click) = "updateUser(restaurant)">
             <label>Commit Changes</label>
         </div> 
       </form>
@@ -84,7 +84,7 @@
 </div>
 
 <div class = "ui create modal" name = "createLocal" id = modal2 >
-    <i class = "close icon"></i>
+    <i class = "close icon" (clicl) = "cleanLocal()"></i>
     <div class = "image content">
         <div class = "ui large image">
             <img src = "/assets/images/app.jpg">
@@ -129,7 +129,7 @@
 </div>
 
 <div class = "ui createUpdate modal" name = "updateLocal" id = modal3 *ngIf = "local">
-    <i class = "close icon"></i>
+    <i class = "close icon" (click) = "cleanLocal()"></i>
     <div class = "image content">
         <div class = "ui large image">
             <img src = "/assets/images/app.jpg">
@@ -137,7 +137,7 @@
         <div class = "description">
           <form class = "ui segment ui form" >
             <div class = "ui header">
-                Registro de Locales
+                Modificacion de Locales
             </div>
             <div class = "one field">
               <div class = "field">

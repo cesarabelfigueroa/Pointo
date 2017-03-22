@@ -140,7 +140,7 @@ app.get("/restaurant", function(request, response) {
 
 	}
 	var _optionsQuery = {
-		fields: ["id", "name", "userName","password", "email"],
+		fields: ["id", "name", "userName","email","password" ],
 		join: [{
 			table: restaurant,
 			fields: ["id", "idUser", "represent", "rtn"],

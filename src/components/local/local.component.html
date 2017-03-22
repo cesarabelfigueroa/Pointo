@@ -1,0 +1,174 @@
+<app-navbar [items] ="navbarItems" ></app-navbar>
+<div class="ui grid">
+  <div class="row">
+    <div class="column">
+      <div class="ui huge message page grid center aligned">
+        <select class="ui search dropdown especial" (change)="onChangeFilter($event)">
+          <option value=""></option>
+          <option *ngFor="let option of searchOptions" value="{{option.value}}" >{{option.name}}</option>
+        </select>
+        <div class="ui left icon action input">
+          <input type="text" placeholder="{{filterHolder}}">
+          <div class="ui blue submit button">GO</div>
+        </div>
+      </div>
+<div class = "ui hidden divider"></div>
+<div class = "ui container">
+    <form class = "ui segment ui form">
+        <div class = "ui field" >
+            <label>Id: </label>
+            <input type = "text" name = "id" placeholder="{{restaurant.id}}" [(ngModel)] = "local.restaurant">
+        </div>
+        <div class = "ui field" >
+            <label>Nombre: </label>
+            <input type = "text" name = "name"   value = "{{restaurant.name}}">
+        </div>
+        <div class = "field">
+            <label>Username</label>
+            <input type = "text" name = "username" value = "{{restaurant.userName}}">
+        </div>
+        <div class = "field">
+            <label>Password</label>
+            <input type = "text" name = "Password" value = "{{restaurant.password}}">
+        </div>
+         <div class = "field">
+            <label aLignment = left>Email</label>
+            <input type = "text" name = "Email" value = "{{restaurant.email}}">
+         </div>      
+        <div class = "ui button" (click) = "updateUser(restaurant)">
+            <label>Commit Changes</label>
+        </div> 
+      </form>
+ </div>
+      <div class = "ui horizontal divider"> </div>
+        <div class = "ui container">
+          <div class = "ui three stackables cards">
+            <div class="card" *ngFor="let promotion of promotions">
+              <div class="image" (click) = "showModal3($event)">
+                <img src="/assets/images/agregar.png">
+              </div>
+              <div class="content">
+                <a class="header">{{promotion.name}}</a>
+                <div class="meta">
+                  <span class="description">{{promotion.description}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="card" *ngFor = "let local of locals">
+              <div class="image" (click) = "showModal4(local,$event)">
+                <img src="/assets/images/app.jpg">
+              </div>
+              <div class="content">
+                <a class="header">Direccion: {{local.adress}}</a>
+                <div class="meta">
+                  <span class="description">Telefono: {{local.phone}}</span>
+                </div>
+              </div>
+              <div class="extra content">
+        <div class="ui centered grid">
+          <div class="row">
+            <i class="huge circular inverted users icons" on-click = "showModal4(local,$event)">
+              <i class="circular tiny configure icon"></i>
+            </i>
+            <i class="huge circular inverted users icons" on-click = "deleteLocal(local)">
+              <i class="circular tiny remove icon"  ></i>
+            </i>
+            
+          </div>
+        </div>
+      </div>
+            </div>
+
+            <div class></div>
+          </div>
+</div>
+
+<div class = "ui create modal" name = "createLocal" id = modal2 >
+    <i class = "close icon" (clicl) = "cleanLocal()"></i>
+    <div class = "image content">
+        <div class = "ui large image">
+            <img src = "/assets/images/app.jpg">
+        </div>
+        <div class = "description">
+          <form class = "ui segment ui form" >
+            <div class = "ui header">
+                Registro de Locales
+            </div>
+            <div class = "one field">
+              <div class = "field">
+                <label>Direccion</label>
+                <input type = "text" name = "adress2" placeholder = "Direccion" [(ngModel)] = "local.adress">
+              </div>
+              <div class = "field">
+                <label>Telefono</label>
+                <input type = "tel" name = "phone2" placeholder = "Telefono" 
+                [(ngModel)] = "local.phone">
+                </div>
+              <div class = "field">
+                <label>Gerente</label>
+                <input type = "text" name = "gerent2" placeholder = "Gerente" 
+                [(ngModel)] = "local.gerent">      
+              </div>
+              <div class = "field">
+                <label>Hora de Inicio</label>
+                <input type = "time" name = "initAt2"  [(ngModel)] = "local.initAt">
+              </div>
+              <div class = "field">
+                <label>Hora de Salida</label>
+                <input type = "time" name = "endAt2" [(ngModel)] = "local.endAt">
+              </div>
+            </div>
+             <div class="actions">
+                <button class="ui positive right labeled icon button"  (click) = "saveLocal()">
+                  <i class="checkmark icon"></i>
+                </button>
+              </div>
+        </form>          
+        </div>
+    </div>
+</div>
+
+<div class = "ui createUpdate modal" name = "updateLocal" id = modal3 *ngIf = "local">
+    <i class = "close icon" (click) = "cleanLocal()"></i>
+    <div class = "image content">
+        <div class = "ui large image">
+            <img src = "/assets/images/app.jpg">
+        </div>
+        <div class = "description">
+          <form class = "ui segment ui form" >
+            <div class = "ui header">
+                Modificacion de Locales
+            </div>
+            <div class = "one field">
+              <div class = "field">
+                <label>Direccion</label>
+                <input type = "text" name = "adress" value = "{{local.adress}}" [(ngModel)] = "local.adress">
+              </div>
+              <div class = "field">
+                <label>Telefono</label>
+                <input type = "tel" name = "phone" value = "{{local.phone}}" 
+                [(ngModel)] = "local.phone">
+                </div>
+              <div class = "field">
+                <label>Gerente</label>
+                <input type = "text" name = "gerent" value = "{{local.gerent}}" 
+                [(ngModel)] = "local.gerent">      
+              </div>
+              <div class = "field">
+                <label>Hora de Inicio</label>
+                <input type = "time" name = "initAt"  [(ngModel)] = "local.initAt">
+              </div>
+              <div class = "field">
+                <label>Hora de Salida</label>
+                <input type = "time" name = "endAt" [(ngModel)] = "local.endAt">
+              </div>
+            </div>
+             <div class="actions">
+                <button class="ui positive right labeled icon button"  (click) = "saveLocal()">
+                  <i class="checkmark icon"></i>
+                </button>
+              </div>
+        </form>          
+        </div>
+    </div>
+</div>

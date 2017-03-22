@@ -324,15 +324,17 @@ var table = function(definition) {
 
         stringStament += stringValues + "; ";
 
-        stringStament += _self.getSelectStatement({
-            fields: [
-                {
-                    field: "id",
-                    fn: "MAX",
-                    as: "id"
-                }
-            ]
-        });		
+        if (_self.fields.hasOwnProperty("id")) {
+	        stringStament += _self.getSelectStatement({
+	            fields: [
+	                {
+	                    field: "id",
+	                    fn: "MAX",
+	                    as: "id"
+	                }
+	            ]
+	        });		
+    	}
         // console.log("@INSERT_STATEMENT = ", stringStament);
         return stringStament;
     };

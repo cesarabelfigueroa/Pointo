@@ -37,6 +37,8 @@ app.get('/assets/images/*', function(request, response) {
 	});
 });
 
+
+
 app.get('/user', function(request, response) {
 	user.READ({
 		fields: ["id", "name", "userName", "email"],
@@ -110,7 +112,11 @@ app.post('/deletePromotion', function(request, response) {
 	}, response);
 })
 
-
+app.post('/deleteLocal', function(request, response) {
+	local.UPDATE({
+		fields: request.body
+	}, response);
+})
 
 app.post('/saveLocal', function(request, response) {
 	console.log("Save Local", request.body);
@@ -134,7 +140,7 @@ app.get("/restaurant", function(request, response) {
 
 	}
 	var _optionsQuery = {
-		fields: ["id", "name", "userName", "email"],
+		fields: ["id", "name", "userName","email","password" ],
 		join: [{
 			table: restaurant,
 			fields: ["id", "idUser", "represent", "rtn"],
@@ -162,7 +168,14 @@ app.get("/restaurant", function(request, response) {
 
 
 app.post("/createUser", function(request, response) {
-	user.CREATE(request.body, response);
+	if (request.body.id_user || request.body.id) {
+		request.body.id = request.body.id_user || request.body.id;
+		user.UPDATE({
+			fields: request.body
+		}, response);
+	} else {
+		user.CREATE(request.body, response);
+	}
 });
 
 app.get("/testJoin", function(request, response) {
@@ -195,6 +208,19 @@ app.listen(app.get('port'), function() {
 	console.log('Angular 2 Full Stack listening on port ' + app.get('port'));
 });
 
+app.get("/myLocals", function(request,response){
+
+	var _optionsQuery = {
+		field: [],
+		where: {
+			disabled: 0
+		}
+	};
+
+	_optionsQuery.where.restaurant = request.query.idRestaurant;
+	local.READ(_optionsQuery, response);
+});
+
 app.get("/favoriteRestaurant", function(request, response) {
 	client_restaurant.READ({
 		join: [{
@@ -221,6 +247,9 @@ app.get("/favoriteRestaurant", function(request, response) {
 	}, response);
 });
 
+app.post("/favoriteRestaurant", function(request, response) {
+    client_restaurant.CREATE(request.body, response);
+});
 
 module.exports = app;
 

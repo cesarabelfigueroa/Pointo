@@ -15,6 +15,7 @@ export class AuthenticateService {
 		return this.http.get('/user?email=' + user.email + '&password=' + user.password).map(res => res.json());
 	}
 
+	
 	getPromotion(restaurant: any): Observable<any> {
 		var URL = '/promotion';
 
@@ -51,6 +52,11 @@ export class AuthenticateService {
 		return this.http.post("/deletePromotion", promotion, { headers: this.headers }).map(res => res.json());
 	}
 
+	deleteLocal(local: any) {
+		local.disabled = 1;
+		return this.http.post("/deleteLocal", local, { headers: this.headers }).map(res => res.json());
+	}
+
 	testJoin(test: any) {
 		return this.http.get("/testJoin").map(res => res.json());
 	}
@@ -59,12 +65,15 @@ export class AuthenticateService {
 		return this.http.get("/restaurant?object=" + JSON.stringify(test)).map(res => res.json());
 	}
 
-	saveLocal(local: any) {
+
+	saveLocal(local: any , id : any) {
+		local.restaurant = id;
 		return this.http.post("/saveLocal", local, { headers: this.headers }).map(res => res.json());
 	}
 
 
 	createUser(user: any){
+		console.log(user);
 		return this.http.post("/createUser", user, { headers: this.headers }).map(res => res.json());
 	}
 
@@ -72,6 +81,15 @@ export class AuthenticateService {
 		var clientData = JSON.parse(sessionStorage.getItem("loggedUser"));
 		var idClient = clientData.idClient;
 		return this.http.get("/favoriteRestaurant?id_client=" + idClient).map(res => res.json());
+	}
+    
+    createFavoriteRestaurant(client_restaurant: any){
+        return this.http.post("/favoriteRestaurant", client_restaurant, { headers: this.headers }).map(res => res.json());
+    } 
+
+	getMyLocals(restaurant: any): Observable<any> {
+		console.log("En service: ", restaurant);
+		return this.http.get("/myLocals?idRestaurant=" + restaurant.idRestaurant).map(res => res.json());
 	}
 
 }

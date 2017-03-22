@@ -15,31 +15,31 @@ var local = new Table({
 			dimension: 18,
 			hasNull: false
 		},
-		name: {
-			name: "adress",
+		adress: {
+			name: "address",
 			type: "string",
 			dimension: 50,
 			hasNull: true
 		},
-		description: {
+		phone: {
 			name: "phone",
 			type: "string",
 			dimension: 50,
 			hasNull: true
 		},
-		types: {
+		gerent: {
 			name: "gerent",
 			type: "string",
 			dimension: 50,
 			hasNull: true
 		},
-		initDate: {
-			name: "initDate",
+		initAt: {
+			name: "initAt",
 			type: "date",
             hasNull: true
 		},
-        endDate: {
-			name: "endDate",
+        endAt: {
+			name: "endAt",
 			type: "date",
 			hasNull: true
 		},

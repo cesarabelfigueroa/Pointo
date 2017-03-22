@@ -10,7 +10,7 @@ import { AuthenticateService } from './services/authenticate.service';
 import { SignUpComponent } from './components/signup/signup.component';
 import { ClientComponent } from
 './components/client/client.component';
-import { signupRestaurantComponent } from './components/signupRestaurant/signupRestaurant.component';
+import { localComponent } from './components/local/local.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { restaurantComponent } from './components/restaurant/restaurant.component';
 import { routing } from './routes';
@@ -24,7 +24,7 @@ import { HashLocationStrategy, LocationStrategy, Location } from '@angular/commo
     LoginComponent,
     SignUpComponent,
     ClientComponent,
-    signupRestaurantComponent,
+    localComponent,
     NavbarComponent,
     restaurantComponent
   ],

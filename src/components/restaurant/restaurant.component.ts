@@ -20,6 +20,7 @@ export class restaurantComponent {
 	private restaurants;
 	private locals;
 	private local;
+	private rUser;
 	private promotions = [];
 	private searchOptions = [];
 
@@ -80,9 +81,9 @@ export class restaurantComponent {
 				}];
 
 				dataService.getRestaurants("").subscribe(
-				data => this.restaurants = data,
-				error => console.log(error)
-			);
+					data => this.restaurants = data,
+					error => console.log(error)
+				);
 
 			}
 		} else {
@@ -127,6 +128,10 @@ export class restaurantComponent {
 			allowMultiple: false,
 		});
 		(<any>$('#modal1')).modal('show');
+	}
+
+	cleanObjects(element){
+		this.router.navigate(['/restaurants']);
 	}
 }
 

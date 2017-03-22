@@ -37,6 +37,8 @@ app.get('/assets/images/*', function(request, response) {
 	});
 });
 
+
+
 app.get('/user', function(request, response) {
 	user.READ({
 		fields: ["id", "name", "userName", "email"],
@@ -110,7 +112,11 @@ app.post('/deletePromotion', function(request, response) {
 	}, response);
 })
 
-
+app.post('/deleteLocal', function(request, response) {
+	local.UPDATE({
+		fields: request.body
+	}, response);
+})
 
 app.post('/saveLocal', function(request, response) {
 	console.log("Save Local", request.body);

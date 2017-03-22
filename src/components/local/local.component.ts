@@ -13,9 +13,10 @@ export class localComponent {
 	private router;
 	private type;
 	private promotions;
-	private restaurant;
 	private user;
 	private navbarItems;
+	private restaurants = [];
+	private locals = [];
 	private searchOptions = [];
 	private local = {};
 
@@ -97,19 +98,46 @@ export class localComponent {
 			endDate: new Date()
 		}];
 
-		this.dataService.getRestaurants("2").subscribe(
-			data => this.restaurant = data,
+		this.dataService.getRestaurants(this.user.idUser).subscribe(
+			data => this.restaurants = data,
 			error => console.log(error)
 		);
 
+
+		this.dataService.getMyLocals(idRestaurant).subscribe(
+				data => this.locals = data,
+				error => console.log(error)
+			);
+
 	}
 
-	showModal(element){	
+	showModal(element){
+		this.local = {};	
+		(<any>$('.ui.modal')).modal({allowMultiple: false,});
+		(<any>$('#modal0')).modal('show');
+	}
+
+	showModal2(local: any, element){
+		this.local = local;
 		(<any>$('.ui.modal')).modal({allowMultiple: false,});
 		(<any>$('#modal1')).modal('show');
 	}
 
 	saveLocal(){
 		this.dataService.saveLocal(this.local).subscribe(params =>  {});
+		this.dataService.getMyLocals(this.user.idRestaurant).subscribe(
+				data => this.locals = data,
+				error => console.log(error)
+			);
 	}
+
+	deleteLocal(local:any){
+		if (this.user && this.user.idRestaurant) {
+			this.dataService.deleteLocal(local).subscribe(params => { });
+			this.dataService.getMyLocals(this.user.idRestaurant).subscribe(
+				data => this.locals = data,
+				error => console.log(error));
+			}
+	}
+
 }

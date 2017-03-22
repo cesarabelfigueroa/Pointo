@@ -19,11 +19,12 @@
 <div class="ui container">
   <div class="ui three stackable cards" *ngIf = restaurants>
    <div class="card" *ngFor = "let restaurant of restaurants">
+       
        <div class="image" (click) = "showModal(restaurant,$event)">
         <img src="/assets/images/app.jpg">
       </div>
       <div class="content">
-        <a class="header">{{restaurant["RESTAURANT.represent"]}}</a>
+        <a class="header">{{restaurant.name}}</a>
         <div class="meta">
           <span class="description">Aqui vendra el nombre y la imagen</span>
         </div>
@@ -80,14 +81,14 @@
 
 
   <div class="actions">
-    <div class="ui positive right labeled icon button">
+    <div class="ui positive right labeled icon button" (click) = "cleanObjects($event)">
       Ok
       <i class="checkmark icon"></i>
     </div>
   </div>
 </div>  
 
-<div class="ui read modal" id="modal1" *ngIf = "local">
+<div class="ui modal" id="modal1" *ngIf = "local">
   <i class="close icon"></i>
   <div class="header">
     Local
@@ -117,7 +118,7 @@
 
 
   <div class="actions">
-    <div class="ui positive right labeled icon button">
+    <div class="ui positive right labeled icon button" (click) = "cleanObjects($event)">
       Ok
       <i class="checkmark icon"></i>
     </div>

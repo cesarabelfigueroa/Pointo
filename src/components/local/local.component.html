@@ -14,10 +14,10 @@
       </div>
 <div class = "ui hidden divider"></div>
 <div class = "ui container">
-    <form class = "ui segment ui form" *ngIf = "restaurant">
+    <form class = "ui segment ui form" *ngFor= "let restaurant of restaurants">
         <div class = "ui field" >
             <label>Nombre</label>
-            <input type = "text" name = "name" placeholder = "Nombre del Restaurante">
+            <input type = "text" name = "name"  [(ngModel)] = "local.restaurant">
         </div>
         <div class = "field">
             <label>Username</label>
@@ -49,15 +49,37 @@
                   <span class="description">{{promotion.description}}</span>
                 </div>
               </div>
-              <div class="extra content">
-                <span class="date">{{promotion.endDate  | date }}</span>
-              </div>
             </div>
+            <div class="card" *ngFor = "let local of locals">
+              <div class="image" (click) = "showModal2(local,$event)">
+                <img src="/assets/images/app.jpg">
+              </div>
+              <div class="content">
+                <a class="header">Direccion: {{local.adress}}</a>
+                <div class="meta">
+                  <span class="description">Telefono: {{local.phone}}</span>
+                </div>
+              </div>
+              <div class="extra content">
+        <div class="ui centered grid">
+          <div class="row">
+            <i class="huge circular inverted users icons" on-click = "showModal2(local,$event)">
+              <i class="circular tiny configure icon"></i>
+            </i>
+            <i class="huge circular inverted users icons" on-click = "deleteLocal(local)">
+              <i class="circular tiny remove icon"  ></i>
+            </i>
+            
+          </div>
+        </div>
+      </div>
+            </div>
+
             <div class></div>
           </div>
 </div>
 
-<div class = "ui createUpdate modal" name = "createLocal" id = modal0 >
+<div class = "ui create modal" name = "createLocal" id = modal0 >
     <i class = "close icon"></i>
     <div class = "image content">
         <div class = "ui large image">
@@ -81,6 +103,51 @@
               <div class = "field">
                 <label>Gerente</label>
                 <input type = "text" name = "gerent" placeholder = "Gerente" 
+                [(ngModel)] = "local.gerent">      
+              </div>
+              <div class = "field">
+                <label>Hora de Inicio</label>
+                <input type = "time" name = "initAt"  [(ngModel)] = "local.initAt">
+              </div>
+              <div class = "field">
+                <label>Hora de Salida</label>
+                <input type = "time" name = "endAt" [(ngModel)] = "local.endAt">
+              </div>
+            </div>
+             <div class="actions">
+                <button class="ui positive right labeled icon button"  (click) = "saveLocal()">
+                  <i class="checkmark icon"></i>
+                </button>
+              </div>
+        </form>          
+        </div>
+    </div>
+</div>
+
+<div class = "ui createUpdate modal" name = "updateLocal" id = modal1 *ngIf = "local">
+    <i class = "close icon"></i>
+    <div class = "image content">
+        <div class = "ui large image">
+            <img src = "/assets/images/app.jpg">
+        </div>
+        <div class = "description">
+          <form class = "ui segment ui form" >
+            <div class = "ui header">
+                Registro de Locales
+            </div>
+            <div class = "one field">
+              <div class = "field">
+                <label>Direccion</label>
+                <input type = "text" name = "adress" value = "{{local.adress}}" [(ngModel)] = "local.adress">
+              </div>
+              <div class = "field">
+                <label>Telefono</label>
+                <input type = "tel" name = "phone" value = "{{local.phone}}" 
+                [(ngModel)] = "local.phone">
+                </div>
+              <div class = "field">
+                <label>Gerente</label>
+                <input type = "text" name = "gerent" value = "{{local.gerent}}" 
                 [(ngModel)] = "local.gerent">      
               </div>
               <div class = "field">

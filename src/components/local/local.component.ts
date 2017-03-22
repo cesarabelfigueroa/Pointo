@@ -114,13 +114,22 @@ export class localComponent {
 	showModal(element){
 		this.local = {};	
 		(<any>$('.ui.modal')).modal({allowMultiple: false,});
-		(<any>$('#modal0')).modal('show');
+		(<any>$('#modal2')).modal('show');
+		this.dataService.getMyLocals(this.user.idRestaurant).subscribe(
+				data => this.locals = data,
+				error => console.log(error)
+			);
 	}
 
 	showModal2(local: any, element){
 		this.local = local;
+		
+		this.dataService.getMyLocals(this.user.idRestaurant).subscribe(
+				data => this.locals = data,
+				error => console.log(error)
+			);
 		(<any>$('.ui.modal')).modal({allowMultiple: false,});
-		(<any>$('#modal1')).modal('show');
+		(<any>$('#modal3')).modal('show');
 	}
 
 	saveLocal(){

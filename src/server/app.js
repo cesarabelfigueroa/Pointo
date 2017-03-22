@@ -162,7 +162,6 @@ app.get("/restaurant", function(request, response) {
 
 
 app.post("/createUser", function(request, response) {
-	console.log(request.body)
 	user.CREATE(request.body, response);
 });
 

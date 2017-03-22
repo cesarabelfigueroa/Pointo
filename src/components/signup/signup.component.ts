@@ -27,7 +27,6 @@ export class SignUpComponent implements OnInit {
 
 	changeProperty(type: any){
 		this.user.type = type;
-
 	}
 
 	ngOnInit() {

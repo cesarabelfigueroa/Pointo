@@ -18,7 +18,7 @@
 <div class="ui hidden divider"></div>
 <div class="ui container">
   <div class="ui three stackable cards">
-    <div class="card"  on-click="showModal2({})">
+    <div class="card"  on-click="showModal2({})" *ngIf="user && user.idRestaurant">
       <div class="image" >
         <img src="/assets/images/agregar.png">
       </div>
@@ -39,13 +39,13 @@
           <span class="description">{{promotion.description}}</span>
         </div>
       </div>
-      <div class="extra content">
+      <div class="extra content" *ngIf="user && user.idRestaurant">
         <div class="ui centered grid">
           <div class="row">
-            <i class="huge circular inverted users icons" on-click="showModal2(promotion)">
+            <i class="huge circular inverted users icons" (click)="showModal2(promotion)">
               <i class="circular tiny configure icon"></i>
             </i>
-            <i class="huge circular inverted users icons" on-click="deletePromotion(promotion)">
+            <i class="huge circular inverted users icons" (click) ="deletePromotion(promotion)">
               <i class="circular tiny remove icon"  ></i>
             </i>
             <span class="date">{{promotion.initDate | date }} - {{promotion.endDate  | date }}</span>
@@ -71,7 +71,7 @@
         <p>Restaurante: {{promotion.id_restaurant}}</p>
       </div>
     </div>
-    <div class="actions">
+    <div class="actions" *ngIf="user && user.idRestaurant" >
       <div class="ui positive right labeled icon button">
         Ok
         <i class="checkmark icon"></i>

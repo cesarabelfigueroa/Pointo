@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
 				}];
 
 			} else {
-				dataService.getPromotion(-1).subscribe(
+				dataService.getPromotion(null).subscribe(
 					data => this.promotions = data,
 					error => console.log(error));
 				this.navbarItems = [{

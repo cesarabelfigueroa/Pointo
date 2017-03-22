@@ -81,6 +81,38 @@ app.get('/promotion', function(request, response) {
 	promotion.READ(_optionsQuery, response);
 });
 
+app.post('/updateClient', function(request, response) {
+	console.log(request.body)
+	user.UPDATE({
+		fields: request.body.user
+	});
+	client.UPDATE({
+		fields: request.body.client
+	});
+	user.READ({
+		fields: ["id", "name", "userName", "email"],
+		join: [{
+			table: client,
+			outer: "left",
+			on: {
+				id: {
+					on: "user"
+				}
+			}
+		}, {
+			table: restaurant,
+			outer: "left",
+			on: {
+				id: {
+					on: "idUser"
+				}
+			}
+		}],
+		where: {
+			id: request.body.user.id
+		}
+	}, response);
+});
 app.post('/savePromotion', function(request, response) {
 	var data = request.body.image;
 	var base64Data = data.replace(/^data:image\/png;base64,/, '');
@@ -248,6 +280,12 @@ app.get("/favoriteRestaurant", function(request, response) {
 });
 
 app.post("/favoriteRestaurant", function(request, response) {
+    client_restaurant.DELETE({
+    	where: {
+    		client: request.body[0].client,
+    		restaurant: request.body[0].restaurant
+    	}
+    });
     client_restaurant.CREATE(request.body, response);
 });
 

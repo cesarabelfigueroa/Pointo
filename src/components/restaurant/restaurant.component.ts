@@ -145,6 +145,7 @@ export class restaurantComponent {
             }]; 
             console.log(this.client_restaurant);
             this.dataService.createFavoriteRestaurant(this.client_restaurant).subscribe(params => { });
+        	alert("Asignado favorito con éxito")
         }
     }
 

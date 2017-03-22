@@ -92,4 +92,10 @@ export class AuthenticateService {
 		return this.http.get("/myLocals?idRestaurant=" + restaurant.idRestaurant).map(res => res.json());
 	}
 
+
+	updateClient(client: any) {
+		console.log(client);
+		return this.http.post("/updateClient", client, { headers: this.headers }).map(res => res.json());
+	}
+
 }

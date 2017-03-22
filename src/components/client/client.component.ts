@@ -18,10 +18,12 @@ export class ClientComponent {
     private user;
     private navbarItems;
     private myRestaurants = [];
-    
-    constructor(dataService: AuthenticateService, router: Router, route: ActivatedRoute) {
+    private data = {};
+    constructor(private dataService: AuthenticateService, router: Router, route: ActivatedRoute) {
 		this.router = router;
 		this.route = route;
+        this.user = JSON.parse(sessionStorage.getItem("loggedUser"));
+        this.user.id = this.user.idUser;
         
         dataService.getfavoriteRestaurant({}).subscribe(
         data => this.myRestaurants = data,
@@ -41,6 +43,52 @@ export class ClientComponent {
 			route: '/login'
 		}];
     }
-    
+    updateClient() {
+        this.dataService.updateClient({
+            user: this.user,
+            client: this.user.client
+        }).subscribe(
+            data => this.data = data,
+            error => console.log(error),
+            () => this.validUser(this.data)
+        );
+    }
 
+
+    validUser(data: any) {
+        //Temporal
+        if (data.length > 0) {
+            data = data[0];
+            var userInfo = {
+                idUser: data.id,
+                name: data.name,
+                userName: data.userName,
+                idClient: data["CLIENT.id"],
+                idRestaurant: data["RESTAURANT.id"],
+                email: data.email,
+                restaurant: {},
+                client: {}
+            };
+
+            if (data["RESTAURANT.id"]) {
+                userInfo.restaurant = {
+                    id: data["RESTAURANT.id"],
+                    represent: data["RESTAURANT.represent"],
+                    rtn: data["RESTAURANT.rtn"]
+                }
+            } else if (data["CLIENT.id"]) {
+                userInfo.client = {
+                    id: data["CLIENT.id"],
+                    birthdate: data["CLIENT.birthdate"],
+                    identification: data["CLIENT.identification"],
+                    phone: data["CLIENT.phone"]
+                }
+            }
+
+            sessionStorage.setItem("loggedUser", JSON.stringify(userInfo));
+            alert("Usuario Modificado con Exito")
+        }
+        // console.log(data);
+    }
+    
 }

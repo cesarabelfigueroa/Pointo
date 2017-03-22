@@ -1,11 +1,23 @@
-<div class = "ui inverted vertical masthead center aligned segment">
-</div>
+<app-navbar [items] ="navbarItems" ></app-navbar>
+<div class="ui grid">
+  <div class="row">
+    <div class="column">
+      <div class="ui huge message page grid center aligned">
+        <select class="ui search dropdown especial" (change)="onChangeFilter($event)">
+          <option value=""></option>
+          <option *ngFor="let option of searchOptions" value="{{option.value}}" >{{option.name}}</option>
+        </select>
+        <div class="ui left icon action input">
+          <input type="text" placeholder="{{filterHolder}}">
+          <div class="ui blue submit button">GO</div>
+        </div>
+      </div>
 <div class = "ui hidden divider"></div>
 <div class = "ui container">
-    <form class = "ui segment ui form">
-        <div class = "ui field">
+    <form class = "ui segment ui form" *ngIf = "restaurant">
+        <div class = "ui field" >
             <label>Nombre</label>
-            <input type = "text" name = "name" placeholder = "Nombre de Restaurante" >
+            <input type = "text" name = "name" placeholder = "Nombre del Restaurante">
         </div>
         <div class = "field">
             <label>Username</label>
@@ -45,14 +57,14 @@
           </div>
 </div>
 
-<div class = "ui createUpdate modal" name = "createLocal" id = modal1 >
+<div class = "ui createUpdate modal" name = "createLocal" id = modal0 >
     <i class = "close icon"></i>
     <div class = "image content">
         <div class = "ui large image">
             <img src = "/assets/images/app.jpg">
         </div>
         <div class = "description">
-          <form class = "ui form" >
+          <form class = "ui segment ui form" >
             <div class = "ui header">
                 Registro de Locales
             </div>
@@ -63,11 +75,13 @@
               </div>
               <div class = "field">
                 <label>Telefono</label>
-                <input type = "tel" name = "phone" placeholder = "Telefono" [(ngModel)] = "local.phone">
+                <input type = "tel" name = "phone" placeholder = "Telefono" 
+                [(ngModel)] = "local.phone">
                 </div>
               <div class = "field">
                 <label>Gerente</label>
-                <input type = "text" name = "gerent" placeholder = "Gerente" [(ngModel)] = "local.gerent">      
+                <input type = "text" name = "gerent" placeholder = "Gerente" 
+                [(ngModel)] = "local.gerent">      
               </div>
               <div class = "field">
                 <label>Hora de Inicio</label>
@@ -86,5 +100,4 @@
         </form>          
         </div>
     </div>
-   
 </div>

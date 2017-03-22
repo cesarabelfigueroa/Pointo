@@ -17,31 +17,100 @@ export class restaurantComponent {
 	private type;
 	private navbarItems;
 	private restaurant; 
-	private restaurants = [];
+	private user;
+	private restaurants;
+	private locals;
+	private local;
 	private promotions = [];
     private client_restaurant;
-    private user;
+	private searchOptions = [];
 
 	constructor(private dataService: AuthenticateService, router: Router, route: ActivatedRoute) {
 		this.router = router;
         this.route = route;
-        this.user = JSON.parse(sessionStorage.getItem('loggedUser'));
         
-		this.navbarItems = [{
-			name: 'Principal',
-			isActive: true
-		}, {
-			name: 'Restaurantes'
-		}, {
-			name: 'Contact'
-		}, {
-			name: 'Restaurantes'
-		}]
+		this.user = JSON.parse(sessionStorage.getItem('loggedUser'));
+		if (this.user) {
+			var idRestaurant = this.user.idRestaurant;
+			if (idRestaurant) {
+				this.locals = [];
+				this.navbarItems = [{
+					name: 'Principal',
+					route: 'home'
+				}, {
+					name: 'Locales',
+					route: 'restaurants'
+				}, {
+					name: 'Perfil',
+					route: 'local'
+				}, {
+					name: 'Salir',
+					route: 'login'
+				}];
 
-		dataService.getRestaurants("").subscribe(
-			data => this.restaurants = data,
-			error => console.log(error)
-		);
+				this.searchOptions = [{
+					name: 'Nombre',
+					value: 'name'
+				}];
+
+				dataService.getMyLocals(idRestaurant).subscribe(
+				data => this.locals = data,
+				error => console.log(error)
+			);
+
+			} else {
+				this.restaurants = [];
+				this.navbarItems = [{
+					name: 'Principal',
+					route: 'home'
+				}, {
+					name: 'Restaurantes',
+					route: 'restaurants'
+				}, {
+					name: 'Perfil',
+					route: 'client'
+				}, {
+					name: 'Salir',
+					route: '/login'
+				}];
+
+
+				this.searchOptions = [{
+					name: 'Nombre',
+					value: 'name'
+				}, {
+					name: 'Restaurante',
+					value: 'restaurant'
+				}];
+
+				dataService.getRestaurants("").subscribe(
+				data => this.restaurants = data,
+				error => console.log(error)
+			);
+
+			}
+		} else {
+			this.navbarItems = [{
+				name: 'Principal',
+				route: 'home'
+			}, {
+				name: 'Restaurantes',
+				route: 'restaurants'
+			}, {
+				name: 'Inscribirse',
+				route: 'singup'
+			}];
+
+			this.searchOptions = [{
+				name: 'Nombre',
+				value: 'name'
+			}, {
+				name: 'Restaurante',
+				value: 'restaurant'
+			}];
+			
+		}
+
 	}
 
 	showModal(restaurant: any, element){
@@ -56,16 +125,25 @@ export class restaurantComponent {
 		(<any>$('#modal0')).modal('show');
 	}
     
-    showModal2(restaurant:any){
+    showModal3(restaurant:any){
         if (this.user.idClient) {
             this.restaurant =restaurant;
             this.client_restaurant = [{
-                client: this.user.idClient
-            }, {   
-                restaurant: this.restaurant.id
+                client: this.user.idClient,
+                restaurant: this.restaurant.id              
             }]; 
             console.log(this.client_restaurant);
+            this.dataService.createFavoriteRestaurant(this.client_restaurant).subscribe(params => { });
         }
     }
+
+	showModal2(local : any,element){
+		this.local = local;
+		(<any>$('.ui.modal')).modal({
+			allowMultiple: false,
+		});
+		(<any>$('#modal1')).modal('show');
+	}
+
 }
 

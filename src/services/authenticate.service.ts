@@ -74,4 +74,8 @@ export class AuthenticateService {
 		return this.http.get("/favoriteRestaurant?id_client=" + idClient).map(res => res.json());
 	}
 
+	getMyLocals(restaurant: any) {
+		var clientData = JSON.parse(sessionStorage.getItem("loggedUser"));
+		return this.http.get("/myLocals?id_client=" + restaurant).map(res => res.json());
+	}
 }

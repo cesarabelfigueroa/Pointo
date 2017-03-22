@@ -196,6 +196,21 @@ app.listen(app.get('port'), function() {
 	console.log('Angular 2 Full Stack listening on port ' + app.get('port'));
 });
 
+app.get("/myLocals", function(request,response){
+	var _optionsQuery = {
+		field: [],
+		where: {
+			disabled: 0
+		}
+	};
+
+	if (request.query.idRestaurant) {
+		_optionsQuery.where.restaurant = request.query.idRestaurant;
+	}
+
+	local.READ(_optionsQuery, response);
+});
+
 app.get("/favoriteRestaurant", function(request, response) {
 	client_restaurant.READ({
 		join: [{

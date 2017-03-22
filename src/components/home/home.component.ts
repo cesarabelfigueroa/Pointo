@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
 	private navbarItems;
 	private searchOptions = [];
 	private user;
+	private filter;
 	private filterHolder = '';
 
 
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit {
 				dataService.getPromotion(idRestaurant).subscribe(
 					data => this.promotions = data,
 					error => console.log(error));
-				
+
 				this.navbarItems = [{
 					name: 'Principal',
 					route: 'home'
@@ -138,7 +139,6 @@ export class HomeComponent implements OnInit {
 
 	onChangeImage(event: Event) {
 		if ((<any>event.target).files && (<any>event.target).files[0]) {
-			console.log(event);
 			var reader = new FileReader();
 			var promotion = this.promotion;
 			reader.onload = function(e) {
@@ -149,7 +149,21 @@ export class HomeComponent implements OnInit {
 			};
 			reader.readAsDataURL((<any>event.target).files[0]);
 		}
+	}
 
+
+	filterApply() {
+		var type = this.filterHolder.toLocaleLowerCase();
+		var value = this.filter;
+		if (type == "name") {
+			this.dataService.getPromotionByName(value).subscribe(
+				data => this.promotions = data,
+				error => console.log(error));
+		} else if (type == "restaurant") {
+			this.dataService.getPromotionByRestaurant(this.filter).subscribe(
+				data => this.promotions = data,
+				error => console.log(error));
+		}
 	}
 
 	deletePromotion(promotion: any) {

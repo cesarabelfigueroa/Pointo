@@ -8,8 +8,8 @@
                     <option *ngFor="let option of searchOptions" value="{{option.value}}" >{{option.name}}</option>
                 </select>
                 <div class="ui left icon action input">
-                    <input type="text" placeholder="{{filterHolder}}">
-                    <div class="ui blue submit button">GO</div>
+                    <input type="text" placeholder="{{filterHolder}}" [(ngModel)] = "filter">
+                    <div class="ui blue submit button" (click) = "filterApply()">GO</div>
                 </div>
             </div>
         </div>

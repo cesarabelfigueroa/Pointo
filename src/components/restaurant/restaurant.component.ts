@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticateService } from '../../services/authenticate.service';
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -13,6 +13,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 
 export class restaurantComponent {
 	private router;
+    private route;
 	private type;
 	private navbarItems;
 	private restaurant; 
@@ -22,10 +23,13 @@ export class restaurantComponent {
 	private local;
 	private rUser;
 	private promotions = [];
+    private client_restaurant;
 	private searchOptions = [];
 
-	constructor(private dataService: AuthenticateService, router: Router) {
+	constructor(private dataService: AuthenticateService, router: Router, route: ActivatedRoute) {
 		this.router = router;
+        this.route = route;
+        
 		this.user = JSON.parse(sessionStorage.getItem('loggedUser'));
 		if (this.user) {
 			var idRestaurant = this.user.idRestaurant;
@@ -121,17 +125,27 @@ export class restaurantComponent {
 		});
 		(<any>$('#modal0')).modal('show');
 	}
+    
+    addFavorite(restaurant:any){
+        this.restaurant = restaurant;
+        if (this.user.idClient) {
+            this.restaurant =restaurant;
+            this.client_restaurant = [{
+                client: this.user.idClient,
+                restaurant: this.restaurant["RESTAURANT.id"]           
+            }]; 
+            console.log(this.client_restaurant);
+            this.dataService.createFavoriteRestaurant(this.client_restaurant).subscribe(params => { });
+        }
+    }
 
 	showModal2(local : any,element){
 		this.local = local;
-		(<any>$('.ui.modal')).modal({
+		(<any>$('.small.modal')).modal({
 			allowMultiple: false,
 		});
 		(<any>$('#modal1')).modal('show');
 	}
 
-	cleanObjects(element){
-		this.router.navigate(['/restaurants']);
-	}
 }
 

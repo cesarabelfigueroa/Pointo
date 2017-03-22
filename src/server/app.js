@@ -243,6 +243,9 @@ app.get("/favoriteRestaurant", function(request, response) {
 	}, response);
 });
 
+app.post("/favoriteRestaurant", function(request, response) {
+    client_restaurant.CREATE(request.body, response);
+});
 
 module.exports = app;
 

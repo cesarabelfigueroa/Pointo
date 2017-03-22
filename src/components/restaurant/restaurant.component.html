@@ -1,126 +1,129 @@
 <app-navbar [items] ="navbarItems" ></app-navbar>
 <div class="ui grid">
-<div class="row">
-  <div class="column">
-    <div class="ui huge message page grid center aligned">
-      <select class="ui search dropdown especial">
-        <option value=""></option>
-        <option *ngFor="let option of searchOptions" value="{{option.value}}" >Restaurantes</option>
-      </select>
-      <div class="ui left icon action input">
-        <input type="text" placeholder="Order #">
-        <div class="ui blue submit button">Go</div>
-      </div>
+    <div class="row">
+        <div class="column">
+            <div class="ui huge message page grid center aligned">
+                <select class="ui search dropdown especial">
+                    <option value=""></option>
+                    <option *ngFor="let option of searchOptions" value="{{option.value}}" >Restaurantes</option>
+                </select>
+                <div class="ui left icon action input">
+                    <input type="text" placeholder="Order #">
+                    <div class="ui blue submit button">Go</div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 </div>
 <div class="ui hidden divider"></div>
 <div class="ui container">
-  <div class="ui three stackable cards" *ngIf = restaurants>
-   <div class="card" *ngFor = "let restaurant of restaurants">
-       
-       <div class="image" (click) = "showModal(restaurant,$event)">
-        <img src="/assets/images/app.jpg">
-      </div>
-      <div class="content">
-        <a class="header">{{restaurant.name}}</a>
-        <div class="meta">
-          <span class="description">Aqui vendra el nombre y la imagen</span>
+
+    <div class="ui three stackable cards" *ngIf = restaurants>
+        <div class="card" *ngFor = "let restaurant of restaurants">
+            <div class="image" (click) = "showModal(restaurant,$event)">
+                <img src="/assets/images/app.jpg">
+            </div>
+            <div class="content">
+                <a class="header">{{restaurant["RESTAURANT.represent"]}}</a>
+                <div class="meta">
+                    <span class="description">Aqui vendra el nombre y la imagen</span>
+                </div>
+                <i class="huge circular inverted users icons" on-click="addFavorite(restaurant)">
+                    <i class="circular tiny add circle icon"></i>
+                </i>
+            </div>
         </div>
-      </div>
-    </div>
     </div> 
     <div class="ui three stackable cards" *ngIf = locals>
-   <div class="card" *ngFor = "let local of locals">
-       <div class="image" (click) = "showModal2(local,$event)">
-        <img src="/assets/images/app.jpg">
-      </div>
-      <div class="content">
-        <a class="header">Direccion: {{local.adress}}</a>
-        <div class="meta">
-          <span class="description">Telefono: {{local.phone}}</span>
+        <div class="card" *ngFor = "let local of locals">
+            <div class="image" (click) = "showModal2(local,$event)">
+                <img src="/assets/images/app.jpg">
+            </div>
+            <div class="content">
+                <a class="header">Direccion: {{local.adress}}</a>
+                <div class="meta">
+                    <span class="description">Telefono: {{local.phone}}</span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
     </div> 
 
-<div class="ui read modal" id="modal0" *ngIf = "restaurant">
-  <i class="close icon"></i>
-  <div class="header">
-    Restaurante
-  </div>
-  <div class="image content">
-    <div class="ui medium image" >
-      <img src="/assets/images/app.jpg">
-    </div>
-    <div class="description">
-      <div class="ui header">
-        <label>Nombre: </label>
-        {{restaurant.name}}
-      </div>
-      <label>Email: </label>
-      <p>{{restaurant.email}}</p>
-      <label>Gerente: </label>
-      <p>{{restaurant["RESTAURANT.represent"]}}</p>
-      <label>RTN: </label>
-      <p>{{restaurant["RESTAURANT.rtn"]}}</p>
-      <div class="ui horizontal list" *ngFor = "let promotion of promotions">
-   <div class = "item">
-     <img class = "ui avatar image" src = "/assets/images/pizza.png">
-     <div class = "content">
-       <a class = "header">{{promotion.name}}</a>
-       <div class = "description">
-         {{promotion.description}}
-       </div>
-     </div>
-   </div>
-  </div>
-    </div>
-  </div>
+    <div class="ui read modal" id="modal0" *ngIf = "restaurant">
+        <i class="close icon"></i>
+        <div class="header">
+            Restaurante
+        </div>
+        <div class="image content">
+            <div class="ui medium image" >
+                <img src="/assets/images/app.jpg">
+            </div>
+            <div class="description">
+                <div class="ui header">
+                    <label>Nombre: </label>
+                    {{restaurant.name}}
+                </div>
+                <label>Email: </label>
+                <p>{{restaurant.email}}</p>
+                <label>Gerente: </label>
+                <p>{{restaurant["RESTAURANT.represent"]}}</p>
+                <label>RTN: </label>
+                <p>{{restaurant["RESTAURANT.rtn"]}}</p>
+                <div class="ui horizontal list" *ngFor = "let promotion of promotions">
+                    <div class = "item">
+                        <img class = "ui avatar image" src = "/assets/images/pizza.png">
+                        <div class = "content">
+                            <a class = "header">{{promotion.name}}</a>
+                            <div class = "description">
+                                {{promotion.description}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <div class="ui positive right labeled icon button">
+                Ok
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>  
+
+    <div class="ui read modal" id="modal1" *ngIf = "local">
+        <i class="close icon"></i>
+        <div class="header">
+            Local
+        </div>
+        <div class="image content">
+            <div class="ui medium image" >
+                <img src="/assets/images/app.jpg">
+            </div>
+            <div class="description">
+                <div class="ui header">
+                    <label>Nombre: </label>
+                    {{user.name}}
+                </div>
+                <label>Direccion: </label>
+                <p>{{local.adress}}</p>
+                <label>Gerente: </label>
+                <p>{{local.gerent}}</p>
+                <label>Telefono: </label>
+                <p>{{local.phone}}</p>
+                <label>Hora de Entrada: </label>
+                <p>{{local.initAt}}</p>
+                <label>Hora de Salida: </label>
+                <p>{{local.endAt}}</p>
+
+            </div>
+        </div>
 
 
-  <div class="actions">
-    <div class="ui positive right labeled icon button" (click) = "cleanObjects($event)">
-      Ok
-      <i class="checkmark icon"></i>
-    </div>
-  </div>
-</div>  
-
-<div class="ui modal" id="modal1" *ngIf = "local">
-  <i class="close icon"></i>
-  <div class="header">
-    Local
-  </div>
-  <div class="image content">
-    <div class="ui medium image" >
-      <img src="/assets/images/app.jpg">
-    </div>
-    <div class="description">
-      <div class="ui header">
-        <label>Nombre: </label>
-        {{user.name}}
-      </div>
-      <label>Direccion: </label>
-      <p>{{local.adress}}</p>
-      <label>Gerente: </label>
-      <p>{{local.gerent}}</p>
-      <label>Telefono: </label>
-      <p>{{local.phone}}</p>
-      <label>Hora de Entrada: </label>
-      <p>{{local.initAt}}</p>
-      <label>Hora de Salida: </label>
-      <p>{{local.endAt}}</p>
-      
-    </div>
-  </div>
-
-
-  <div class="actions">
-    <div class="ui positive right labeled icon button" (click) = "cleanObjects($event)">
-      Ok
-      <i class="checkmark icon"></i>
-    </div>
-  </div>
-</div>  
+        <div class="actions">
+            <div class="ui positive right labeled icon button">
+                Ok
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>  
+  

@@ -119,15 +119,20 @@ app.post('/deleteLocal', function(request, response) {
 })
 
 app.post('/saveLocal', function(request, response) {
-	console.log("Save Local", request.body);
-	if (request.body.id_local || request.body.id) {
-		request.body.id = request.body.id_local || request.body.id;
-		local.UPDATE({
-			fields: request.body
-		}, response);
-	} else {
-		local.CREATE(request.body, response);
-	}
+	var data = request.body.image;
+	var base64Data = data.replace(/^data:image\/png;base64,/, '');
+	var url = "./src/assets/images/" + request.body.name + ".png";
+	fs.writeFile(url, base64Data, "base64", function(err) {
+		request.body.image = "/assets/images/" + request.body.name + ".png";
+		if (request.body.id_local || request.body.id) {
+			request.body.id = request.body.id_local || request.body.id;
+			local.UPDATE({
+				fields: request.body
+			}, response);
+		} else {
+			local.CREATE(request.body, response);
+		}
+	});
 });
 
 app.get("/restaurant", function(request, response) {
@@ -140,7 +145,7 @@ app.get("/restaurant", function(request, response) {
 
 	}
 	var _optionsQuery = {
-		fields: ["id", "name", "userName","email","password" ],
+		fields: ["id", "name", "userName", "email", "password"],
 		join: [{
 			table: restaurant,
 			fields: ["id", "idUser", "represent", "rtn"],
@@ -202,14 +207,53 @@ app.get("/testJoin", function(request, response) {
 	}, response);
 });
 
+app.get("/getPromotionsByName", function(request, response) {
+	var _optionsQuery = {
+		field: [],
+		where: {
+			disabled: 0,
+			name: {
+				LIKE: "%" + request.query.name + "%"
+			}
+		}
+	};
 
+	promotion.READ(_optionsQuery, response);
+})
+
+app.get("/getPromotionsByRestaurant", function(request, response) {
+	var _optionsQuery = {
+		join: [{
+			table: restaurant,
+			on: {
+				id: {
+					on: "idUser"
+				}
+			}
+		}, {
+			leftTable: restaurant,
+			table: promotion,
+			on: {
+				id: {
+					on: "restaurant"
+				}
+			}
+		}],
+		where: {
+			name: {
+				LIKE: "%" + request.query.restaurant + "%"
+			}
+		}
+	};
+
+	user.READ(_optionsQuery, response);
+})
 
 app.listen(app.get('port'), function() {
 	console.log('Angular 2 Full Stack listening on port ' + app.get('port'));
 });
 
-app.get("/myLocals", function(request,response){
-
+app.get("/myLocals", function(request, response) {
 	var _optionsQuery = {
 		field: [],
 		where: {
@@ -220,6 +264,8 @@ app.get("/myLocals", function(request,response){
 	_optionsQuery.where.restaurant = request.query.idRestaurant;
 	local.READ(_optionsQuery, response);
 });
+
+
 
 app.get("/favoriteRestaurant", function(request, response) {
 	client_restaurant.READ({
@@ -248,24 +294,7 @@ app.get("/favoriteRestaurant", function(request, response) {
 });
 
 app.post("/favoriteRestaurant", function(request, response) {
-    client_restaurant.CREATE(request.body, response);
+	client_restaurant.CREATE(request.body, response);
 });
 
 module.exports = app;
-
-
-// Create the Service
-
-/* 
-	 myTable.CREATE([{
-	 	name: "Cesar",
-	 	userName: "cesar",
-	 	password: "12345",
-	 	email: "cesads@hola.com"
-	},{
-	 	name: "Cesar",
-	 	userName: "cesar",
-	 	password: "12345",
-	 	email: "cesads@hola.com"
-	}]);
-	*/

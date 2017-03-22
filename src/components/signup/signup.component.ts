@@ -12,7 +12,7 @@ import { AuthenticateService } from '../../services/authenticate.service';
 export class SignUpComponent implements OnInit {
 
 	private user = {
-		type: ''
+		type: 'client'
 	};
 
 

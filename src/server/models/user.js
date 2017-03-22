@@ -19,7 +19,7 @@ var user = new Table({
 			name: "username",
 			type: "string",
 			dimension: 10,
-			hasNull: false
+			hasNull: true
 		},
 		password: {
 			name: "password",
@@ -34,6 +34,12 @@ var user = new Table({
 		},
         image: {
 			name: "image",
+			type: "string",
+			dimension: 50,
+			hasNull: true
+		},
+		type: {
+			name: "type",
 			type: "string",
 			dimension: 50,
 			hasNull: true

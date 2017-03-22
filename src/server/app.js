@@ -222,6 +222,10 @@ app.get("/favoriteRestaurant", function(request, response) {
 	}, response);
 });
 
+app.post("/favoriteRestaurant", function(request, response) {
+	console.log(request.body)
+    client_restaurant.CREATE(request.body, response);
+});
 
 module.exports = app;
 

@@ -1,153 +1,153 @@
 <app-navbar [items] ="navbarItems" ></app-navbar>
 <div class="ui grid">
-  <div class="row">
-    <div class="column">
-      <div class="ui huge message page grid center aligned">
-        <select class="ui search dropdown especial" (change)="onChangeFilter($event)">
-          <option value=""></option>
-          <option *ngFor="let option of searchOptions" value="{{option.value}}" >{{option.name}}</option>
-        </select>
-        <div class="ui left icon action input">
-          <input type="text" placeholder="{{filterHolder}}">
-          <div class="ui blue submit button">GO</div>
+    <div class="row">
+        <div class="column">
+            <div class="ui huge message page grid center aligned">
+                <select class="ui search dropdown especial" (change)="onChangeFilter($event)">
+                    <option value=""></option>
+                    <option *ngFor="let option of searchOptions" value="{{option.value}}" >{{option.name}}</option>
+                </select>
+                <div class="ui left icon action input">
+                    <input type="text" placeholder="{{filterHolder}}">
+                    <div class="ui blue submit button">GO</div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 <div class="ui hidden divider"></div>
 <div class="ui container">
-  <div class="ui three stackable cards">
-    <div class="card"  on-click="showModal2({})">
-      <div class="image" >
-        <img src="/assets/images/agregar.png">
-      </div>
-      <div class="content">
-        <a class="header">Crear nuevo</a>
-        <div class="meta">
-          <span class="description">Nueva Promocion</span>
+    <div class="ui three stackable cards">
+        <div class="card"  on-click="showModal2({})">
+            <div class="image" >
+                <img src="/assets/images/agregar.png">
+            </div>
+            <div class="content">
+                <a class="header">Crear nuevo</a>
+                <div class="meta">
+                    <span class="description">Nueva Promocion</span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="card" *ngFor="let promotion of promotions">
-      <div class="image" *ngIf="promotion.image">
-        <img src="{{promotion.image}}"> 
-      </div>
-      <div class="content">
-        <a class="header" on-click="showModal1(promotion)">{{promotion.name}}</a>
-        <div class="meta">
-          <span class="description">{{promotion.description}}</span>
+        <div class="card" *ngFor="let promotion of promotions">
+            <div class="image" *ngIf="promotion.image">
+                <img src="{{promotion.image}}"> 
+            </div>
+            <div class="content">
+                <a class="header" on-click="showModal1(promotion)">{{promotion.name}}</a>
+                <div class="meta">
+                    <span class="description">{{promotion.description}}</span>
+                </div>
+            </div>
+            <div class="extra content">
+                <div class="ui centered grid">
+                    <div class="row">
+                        <i class="huge circular inverted users icons" on-click="showModal2(promotion)">
+                            <i class="circular tiny configure icon"></i>
+                        </i>
+                        <i class="huge circular inverted users icons" on-click="deletePromotion(promotion)">
+                            <i class="circular tiny remove icon"  ></i>
+                        </i>
+                        <span class="date">{{promotion.initDate | date }} - {{promotion.endDate  | date }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="extra content">
-        <div class="ui centered grid">
-          <div class="row">
-            <i class="huge circular inverted users icons" on-click="showModal2(promotion)">
-              <i class="circular tiny configure icon"></i>
-            </i>
-            <i class="huge circular inverted users icons" on-click="deletePromotion(promotion)">
-              <i class="circular tiny remove icon"  ></i>
-            </i>
-            <span class="date">{{promotion.initDate | date }} - {{promotion.endDate  | date }}</span>
-          </div>
+    </div>
+    <div class="ui read modal" id="modal0" *ngIf="promotion">
+        <i class="close icon"></i>
+        <div class="header">
+            Promoción
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="ui read modal" id="modal0" *ngIf="promotion">
-    <i class="close icon"></i>
-    <div class="header">
-      Promoción
-    </div>
-    <div class="image content">
-      <div class="ui medium image" >
-        <img src="{{promotion.image}}">
-      </div>
-      <div class="description">
-        <div class="ui header">{{promotion.name}}</div>
-        <p>{{promotion.description}}</p>
-        <p>Válido desde: <span class="date">{{promotion.initDate | date }}</span></p>
-        <p>Hasta: <span class="date">{{promotion.endDate | date }}</span></p>
-        <p>Restaurante: {{promotion.id_restaurant}}</p>
-      </div>
-    </div>
-    <div class="actions">
-      <div class="ui positive right labeled icon button">
-        Ok
-        <i class="checkmark icon"></i>
-      </div>
-    </div>
-  </div>
-  <div class="ui createUpdate small modal" id="modal1" *ngIf="promotion">
-    <i class="close icon"></i>
-    <div class="header" *ngIf="promotion.id">
-      Editar Promoción
-    </div>
-    <div class="header" *ngIf="!promotion.id">
-      Crear Promoción
-    </div>
-    <div class="image content">
-      <div class="ui medium image" >
-        <img src="/assets/images/app.jpg" id="image-preview">
-      </div>
-      <div class="description">
-        <div class="ui header">Datos</div>
-        <div class="ui form">
-          <div class="one field">
-            <div class="field">
-              <label>Nombre</label>
-              <div class="ui input left icon">
-                <i class="browser outline icon"></i>
-                <input value ="{{promotion.name}}"
-                type = "text"
-                placeholder = "Nombre"
-                [(ngModel)] = "promotion.name">
-              </div>
+        <div class="image content">
+            <div class="ui medium image" >
+                <img src="{{promotion.image}}">
             </div>
-            <div class="field">
-              <label>Descripcion</label>
-              <div class="ui input left icon">
-                <i class="comment outline icon"></i>
-                <input value ="{{promotion.description}}"
-                type = "text"
-                placeholder = "Descripcion"
-                [(ngModel)] = "promotion.description">
-              </div>
+            <div class="description">
+                <div class="ui header">{{promotion.name}}</div>
+                <p>{{promotion.description}}</p>
+                <p>Válido desde: <span class="date">{{promotion.initDate | date }}</span></p>
+                <p>Hasta: <span class="date">{{promotion.endDate | date }}</span></p>
+                <p>Restaurante: {{promotion.id_restaurant}}</p>
             </div>
-            <div class="field">
-              <label>Inicio</label>
-              <div class="ui input left icon">
-                <i class="calendar icon"></i>
-                <input value ="{{promotion.initDate  | date }}"
-                type = "date"
-                placeholder = "Inicio"
-                [(ngModel)] = "promotion.initDate">
-              </div>
-            </div>
-            <div class="field">
-              <label>Final</label>
-              <div class="ui input left icon">
-                <i class="calendar icon"></i>
-                <input value ="{{promotion.endDate  | date }}"
-                type = "date"
-                placeholder = "Final"
-                [(ngModel)] = "promotion.endDate">
-              </div>
-            </div>
-            <div class="field">
-              <label>Imagen</label>
-              <input type="file" accept="image/*" id="image"
-               (change)="onChangeImage($event)">
-            </div>
-          </div>
         </div>
-      </div>
+        <div class="actions">
+            <div class="ui positive right labeled icon button">
+                Ok
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
     </div>
-    <div class="actions">
-      <button class="ui positive right  icon button"
-      (click) = "savePromotion()">
-        <i class="checkmark icon"></i>
-      </button>
+    <div class="ui createUpdate small modal" id="modal1" *ngIf="promotion">
+        <i class="close icon"></i>
+        <div class="header" *ngIf="promotion.id">
+            Editar Promoción
+        </div>
+        <div class="header" *ngIf="!promotion.id">
+            Crear Promoción
+        </div>
+        <div class="image content">
+            <div class="ui medium image" >
+                <img src="/assets/images/app.jpg" id="image-preview">
+            </div>
+            <div class="description">
+                <div class="ui header">Datos</div>
+                <div class="ui form">
+                    <div class="one field">
+                        <div class="field">
+                            <label>Nombre</label>
+                            <div class="ui input left icon">
+                                <i class="browser outline icon"></i>
+                                <input value ="{{promotion.name}}"
+                                       type = "text"
+                                       placeholder = "Nombre"
+                                       [(ngModel)] = "promotion.name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Descripcion</label>
+                            <div class="ui input left icon">
+                                <i class="comment outline icon"></i>
+                                <input value ="{{promotion.description}}"
+                                       type = "text"
+                                       placeholder = "Descripcion"
+                                       [(ngModel)] = "promotion.description">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Inicio</label>
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input value ="{{promotion.initDate  | date }}"
+                                       type = "date"
+                                       placeholder = "Inicio"
+                                       [(ngModel)] = "promotion.initDate">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Final</label>
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input value ="{{promotion.endDate  | date }}"
+                                       type = "date"
+                                       placeholder = "Final"
+                                       [(ngModel)] = "promotion.endDate">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Imagen</label>
+                            <input type="file" accept="image/*" id="image"
+                                   (change)="onChangeImage($event)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="ui positive right  icon button"
+                    (click) = "savePromotion()">
+                <i class="checkmark icon"></i>
+            </button>
+        </div>
     </div>
-  </div>
 </div>

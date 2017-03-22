@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticateService } from '../../services/authenticate.service';
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -13,15 +13,20 @@ import { NavbarComponent } from '../navbar/navbar.component';
 
 export class restaurantComponent {
 	private router;
+    private route;
 	private type;
 	private navbarItems;
 	private restaurant; 
 	private restaurants = [];
 	private promotions = [];
+    private client_restaurant;
+    private user;
 
-	constructor(private dataService: AuthenticateService, router: Router) {
+	constructor(private dataService: AuthenticateService, router: Router, route: ActivatedRoute) {
 		this.router = router;
-
+        this.route = route;
+        this.user = JSON.parse(sessionStorage.getItem('loggedUser'));
+        
 		this.navbarItems = [{
 			name: 'Principal',
 			isActive: true
@@ -50,5 +55,17 @@ export class restaurantComponent {
 		});
 		(<any>$('#modal0')).modal('show');
 	}
+    
+    showModal2(restaurant:any){
+        if (this.user.idClient) {
+            this.restaurant =restaurant;
+            this.client_restaurant = [{
+                client: this.user.idClient
+            }, {   
+                restaurant: this.restaurant.id
+            }]; 
+            console.log(this.client_restaurant);
+        }
+    }
 }
 

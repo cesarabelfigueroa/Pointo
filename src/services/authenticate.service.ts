@@ -73,5 +73,9 @@ export class AuthenticateService {
 		var idClient = clientData.idClient;
 		return this.http.get("/favoriteRestaurant?id_client=" + idClient).map(res => res.json());
 	}
+    
+    createFavoriteRestaurant(client_restaurant: any){
+        return this.http.post("/favoriteRestaurant", client_restaurant, { headers: this.headers }).map(res => res.json());
+    } 
 
 }

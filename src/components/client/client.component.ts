@@ -26,19 +26,20 @@ export class ClientComponent {
         dataService.getfavoriteRestaurant({}).subscribe(
         data => this.myRestaurants = data,
         error => console.log(error),
-        () => console.log(this.myRestaurants)
-        );
-        
+        () => console.log(this.myRestaurants));
         this.navbarItems = [{
-			name: 'Principal',
-			isActive: true
-		}, {
-			name: 'Restaurantes'
-		}, {
-			name: 'Contact'
-		}, {
-			name: 'Perfil'
-		}]
+            name: 'Principal',
+            route: 'home'
+        }, {
+            name: 'Restaurantes',
+            route: 'restaurants'
+        }, {
+            name: 'Perfil',
+			route: 'client'
+        }, {
+			name: 'Salir',
+			route: '/login'
+		}];
     }
     
 

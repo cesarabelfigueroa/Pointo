@@ -140,7 +140,7 @@ app.get("/restaurant", function(request, response) {
 
 	}
 	var _optionsQuery = {
-		fields: ["id", "name", "userName", "email"],
+		fields: ["id", "name", "userName","password", "email"],
 		join: [{
 			table: restaurant,
 			fields: ["id", "idUser", "represent", "rtn"],
@@ -169,7 +169,14 @@ app.get("/restaurant", function(request, response) {
 
 app.post("/createUser", function(request, response) {
 	console.log(request.body)
-	user.CREATE(request.body, response);
+	if (request.body.id_user || request.body.id) {
+		request.body.id = request.body.id_user || request.body.id;
+		user.UPDATE({
+			fields: request.body
+		}, response);
+	} else {
+		user.CREATE(request.body, response);
+	}
 });
 
 app.get("/testJoin", function(request, response) {
@@ -203,6 +210,7 @@ app.listen(app.get('port'), function() {
 });
 
 app.get("/myLocals", function(request,response){
+
 	var _optionsQuery = {
 		field: [],
 		where: {
@@ -210,10 +218,7 @@ app.get("/myLocals", function(request,response){
 		}
 	};
 
-	if (request.query.idRestaurant) {
-		_optionsQuery.where.restaurant = request.query.idRestaurant;
-	}
-
+	_optionsQuery.where.restaurant = request.query.idRestaurant;
 	local.READ(_optionsQuery, response);
 });
 

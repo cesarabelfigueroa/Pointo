@@ -54,7 +54,7 @@ export class restaurantComponent {
 					value: 'name'
 				}];
 
-				dataService.getMyLocals(idRestaurant).subscribe(
+				dataService.getMyLocals(this.user).subscribe(
 				data => this.locals = data,
 				error => console.log(error)
 			);

@@ -98,33 +98,33 @@ export class localComponent {
 			endDate: new Date()
 		}];
 
-		this.dataService.getRestaurants(this.user.idUser).subscribe(
+		var object = {id: this.user.idUser}
+		this.dataService.getRestaurants(object).subscribe(
 			data => this.restaurants = data,
 			error => console.log(error)
 		);
 
 
-		this.dataService.getMyLocals(idRestaurant).subscribe(
+
+		this.dataService.getMyLocals(this.user).subscribe(
 				data => this.locals = data,
 				error => console.log(error)
 			);
 
 	}
 
-	showModal(element){
-		this.local = {};	
+	showModal3(element){	
 		(<any>$('.ui.modal')).modal({allowMultiple: false,});
 		(<any>$('#modal2')).modal('show');
-		this.dataService.getMyLocals(this.user.idRestaurant).subscribe(
+		this.dataService.getMyLocals(this.user).subscribe(
 				data => this.locals = data,
 				error => console.log(error)
 			);
 	}
 
-	showModal2(local: any, element){
+	showModal4(local: any, element){
 		this.local = local;
-		
-		this.dataService.getMyLocals(this.user.idRestaurant).subscribe(
+		this.dataService.getMyLocals(this.user).subscribe(
 				data => this.locals = data,
 				error => console.log(error)
 			);
@@ -134,7 +134,7 @@ export class localComponent {
 
 	saveLocal(){
 		this.dataService.saveLocal(this.local).subscribe(params =>  {});
-		this.dataService.getMyLocals(this.user.idRestaurant).subscribe(
+		this.dataService.getMyLocals(this.user).subscribe(
 				data => this.locals = data,
 				error => console.log(error)
 			);
@@ -147,6 +147,10 @@ export class localComponent {
 				data => this.locals = data,
 				error => console.log(error));
 			}
+	}
+
+	updateUser(){
+		
 	}
 
 }

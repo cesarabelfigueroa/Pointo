@@ -125,12 +125,13 @@ export class restaurantComponent {
 		(<any>$('#modal0')).modal('show');
 	}
     
-    showModal3(restaurant:any){
+    addFavorite(restaurant:any){
+        this.restaurant = restaurant;
         if (this.user.idClient) {
             this.restaurant =restaurant;
             this.client_restaurant = [{
                 client: this.user.idClient,
-                restaurant: this.restaurant.id              
+                restaurant: this.restaurant["RESTAURANT.id"]           
             }]; 
             console.log(this.client_restaurant);
             this.dataService.createFavoriteRestaurant(this.client_restaurant).subscribe(params => { });
@@ -139,7 +140,7 @@ export class restaurantComponent {
 
 	showModal2(local : any,element){
 		this.local = local;
-		(<any>$('.ui.modal')).modal({
+		(<any>$('.small.modal')).modal({
 			allowMultiple: false,
 		});
 		(<any>$('#modal1')).modal('show');

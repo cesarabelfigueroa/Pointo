@@ -15,6 +15,7 @@ export class localComponent {
 	private promotions;
 	private user;
 	private navbarItems;
+	private lUser;
 	private restaurants = [];
 	private locals = [];
 	private searchOptions = [];
@@ -105,7 +106,6 @@ export class localComponent {
 		);
 
 
-
 		this.dataService.getMyLocals(this.user).subscribe(
 				data => this.locals = data,
 				error => console.log(error)
@@ -151,8 +151,10 @@ export class localComponent {
 				error => console.log(error));
 		this.local = {};
 	}
-	updateUser(user: any){
-		this.dataService.createUser(user).subscribe(params =>  {});
+	updateUser(r: any){
+		var obj = {id_user: this.user.idUser,name: r.name, userName: r.userName, email: r.email, 
+			password: r.password, image: r.image,disabled: '0'};
+		this.dataService.createUser(obj).subscribe(params =>  {});
 	}
 
 }

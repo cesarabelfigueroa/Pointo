@@ -124,16 +124,15 @@ export class restaurantComponent {
 			allowMultiple: false,
 		});
 		(<any>$('#modal0')).modal('show');
-		this.cleanRestaurant();
 	}
     
     cleanRestaurant(){
-    	this.restaurant = {};
+    	//this.restaurant = {};
     }
 
     cleanLocal(){
     	//this.local = {};
-    	this.router.navigate(['/restaurants/']);
+    	//this.router.navigate(['/restaurants/']);
     }
     addFavorite(restaurant:any){
         this.restaurant = restaurant;

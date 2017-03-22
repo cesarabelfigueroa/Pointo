@@ -58,7 +58,8 @@ export class AuthenticateService {
 	}
 
 	testJoin(test: any) {
-		return this.http.get("/testJoin").map(res => res.json());
+		console.log(test);
+		return this.http.get("/testJoin?id=" + test).map(res => res.json());
 	}
 	getRestaurants(test: any) {
 		console.log(test);
@@ -90,6 +91,12 @@ export class AuthenticateService {
 	getMyLocals(restaurant: any): Observable<any> {
 		console.log("En service: ", restaurant);
 		return this.http.get("/myLocals?idRestaurant=" + restaurant.idRestaurant).map(res => res.json());
+	}
+
+	getUser2(user: any): Observable<any> {
+		console.log("En service: ", user);
+		console.log("En service: ", user.id);
+		return this.http.get("/getUser?id=" + user).map(res => res.json());
 	}
 
 }

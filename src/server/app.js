@@ -37,7 +37,17 @@ app.get('/assets/images/*', function(request, response) {
 	});
 });
 
+app.get('/getUser', function(request, response) {
+	var _optionsQuery = {
+		field: [],
+		where: {
+			disabled: 0
+		}
+	};
 
+	_optionsQuery.where.id = request.query.id;
+	user.READ(_optionsQuery, response);	
+});
 
 app.get('/user', function(request, response) {
 	user.READ({

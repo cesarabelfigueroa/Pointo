@@ -14,7 +14,7 @@
       </div>
 <div class = "ui hidden divider"></div>
 <div class = "ui container">
-    <form class = "ui segment ui form">
+    <form class = "ui segment ui form" *ngFor = "let restaurant of restaurants">
         <div class = "ui field" >
             <label>Id: </label>
             <input type = "text" name = "id" placeholder="{{restaurant.id}}" [(ngModel)] = "local.restaurant">

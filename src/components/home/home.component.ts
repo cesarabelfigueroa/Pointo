@@ -31,15 +31,16 @@ export class HomeComponent implements OnInit {
 				dataService.getPromotion(idRestaurant).subscribe(
 					data => this.promotions = data,
 					error => console.log(error));
+				
 				this.navbarItems = [{
 					name: 'Principal',
 					route: 'home'
 				}, {
 					name: 'Locales',
-					route: 'local'
+					route: 'restaurants'
 				}, {
 					name: 'Perfil',
-					route: 'signupRestaurant'
+					route: 'local'
 				}, {
 					name: 'Salir',
 					route: 'login'

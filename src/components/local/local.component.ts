@@ -1,27 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticateService } from '../../services/authenticate.service';
-import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
-	selector: 'app-restaurant',
-	templateUrl: './restaurant.component.html',
-	styleUrls: ['./restaurant.component.css'],
-	providers: [AuthenticateService],
-	entryComponents: [NavbarComponent]
+	selector: 'app-local',
+	templateUrl: './local.component.html',
+	styleUrls: ['./local.component.css'],
+	providers: [AuthenticateService]
 })
 
-export class restaurantComponent {
+export class localComponent {
 	private router;
 	private type;
-	private navbarItems;
-	private restaurant; 
+	private promotions;
+	private restaurant;
 	private user;
-	private restaurants;
-	private locals;
-	private local;
-	private promotions = [];
+	private navbarItems;
 	private searchOptions = [];
+	private local = {};
 
 	constructor(private dataService: AuthenticateService, router: Router) {
 		this.router = router;
@@ -29,7 +25,6 @@ export class restaurantComponent {
 		if (this.user) {
 			var idRestaurant = this.user.idRestaurant;
 			if (idRestaurant) {
-				this.locals = [];
 				this.navbarItems = [{
 					name: 'Principal',
 					route: 'home'
@@ -48,14 +43,7 @@ export class restaurantComponent {
 					name: 'Nombre',
 					value: 'name'
 				}];
-
-				dataService.getMyLocals(idRestaurant).subscribe(
-				data => this.locals = data,
-				error => console.log(error)
-			);
-
 			} else {
-				this.restaurants = [];
 				this.navbarItems = [{
 					name: 'Principal',
 					route: 'home'
@@ -79,11 +67,6 @@ export class restaurantComponent {
 					value: 'restaurant'
 				}];
 
-				dataService.getRestaurants("").subscribe(
-				data => this.restaurants = data,
-				error => console.log(error)
-			);
-
 			}
 		} else {
 			this.navbarItems = [{
@@ -106,27 +89,27 @@ export class restaurantComponent {
 			}];
 			
 		}
+		this.promotions = [{
+			name: 'Agregar Local',
+			image: '/assets/images/app.jpg',
+			description: 'Click aqui para registrar un nuevo local',
+			initDate: new Date(),
+			endDate: new Date()
+		}];
 
-	}
-
-	showModal(restaurant: any, element){
-		this.restaurant = restaurant;
-		this.dataService.getPromotion(this.restaurant["RESTAURANT.id"]).subscribe(
-			data => this.promotions = data,
+		this.dataService.getRestaurants("2").subscribe(
+			data => this.restaurant = data,
 			error => console.log(error)
 		);
-		(<any>$('.ui.modal')).modal({
-			allowMultiple: false,
-		});
-		(<any>$('#modal0')).modal('show');
+
 	}
 
-	showModal2(local : any,element){
-		this.local = local;
-		(<any>$('.ui.modal')).modal({
-			allowMultiple: false,
-		});
+	showModal(element){	
+		(<any>$('.ui.modal')).modal({allowMultiple: false,});
 		(<any>$('#modal1')).modal('show');
 	}
-}
 
+	saveLocal(){
+		this.dataService.saveLocal(this.local).subscribe(params =>  {});
+	}
+}
